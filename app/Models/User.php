@@ -41,4 +41,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function initialize(): void
+    {
+        $time = date('Y-m-d H:i:s');
+        self::insert([
+            [
+                'name' => 'Admin',
+                'email' => 'admin@' . env('APP_DOMAIN'),
+                'email_verified_at' => $time,
+                'password' => password_hash(12345678, PASSWORD_DEFAULT),
+                'remember_token' => bin2hex(openssl_random_pseudo_bytes(32)),
+                'type' => 'admin',
+                'created_at' => $time,
+                'updated_at' => $time,
+            ], [
+                'name' => 'Garçom',
+                'email' => 'garcom@' . env('APP_DOMAIN'),
+                'email_verified_at' => $time,
+                'password' => password_hash(12345678, PASSWORD_DEFAULT),
+                'remember_token' => bin2hex(openssl_random_pseudo_bytes(32)),
+                'type' => 'garcom',
+                'created_at' => $time,
+                'updated_at' => $time,
+            ]
+        ]);
+    }
 }
