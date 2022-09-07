@@ -5,8 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property float $value
+ */
 class Product extends Model
 {
+    /**
+     * @return string
+     */
+    public function getCurrentValue(): string
+    {
+        return 'R$ '.number_format($this->value, 2, ',', '.');
+    }
+
     use HasFactory;
 
     /**
@@ -17,28 +28,28 @@ class Product extends Model
         $time = date('Y-m-d H:i:s');
         self::insert([
             [
-                'name'=> 'Água',
+                'name' => 'Água',
                 'value' => 1.50,
                 'created_at' => $time,
                 'updated_at' => $time,
             ],
             [
-                'name'=> 'Cerveja',
+                'name' => 'Cerveja',
                 'value' => 5.50,
                 'created_at' => $time,
                 'updated_at' => $time,
-            ],[
-                'name'=> 'Refrigerante',
+            ], [
+                'name' => 'Refrigerante',
                 'value' => 7.10,
                 'created_at' => $time,
                 'updated_at' => $time,
-            ],[
-                'name'=> 'PF',
+            ], [
+                'name' => 'PF',
                 'value' => 18,
                 'created_at' => $time,
                 'updated_at' => $time,
-            ],[
-                'name'=> 'Brigadeiro',
+            ], [
+                'name' => 'Brigadeiro',
                 'value' => 2,
                 'created_at' => $time,
                 'updated_at' => $time,

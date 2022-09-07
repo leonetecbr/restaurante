@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use \Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,12 +30,11 @@ class UserController extends Controller
      * Realiza a autenticação do usuário
      * @param Request $request
      * @return RedirectResponse
-     * @throws ValidationException
      */
     #[Route('/login', name: 'auth')]
     public function post(Request $request): RedirectResponse
     {
-        $dados = $this->validate($request, [
+        $dados = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);

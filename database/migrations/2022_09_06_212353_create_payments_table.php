@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->float('value');
             $table->unsignedBigInteger('table_id');
             $table->integer('client');
-            $table->enum('payment', ['dinheiro', 'débito', 'crédito', 'pix']);
+            $table->enum('method', ['dinheiro', 'débito', 'crédito', 'pix']);
             $table->foreign('table_id')->references('id')->on('tables');
             $table->dateTime('time')->useCurrent();
         });

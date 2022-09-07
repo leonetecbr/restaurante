@@ -1,8 +1,8 @@
 @extends('layout.app')
 @section('title', 'Login')
 @section('content')
-<main class="form-signin">
-    <form class="text-center needs-validation" method="post" action="{{ route('auth') }}" novalidate>
+<main class="mt-auto">
+    <form class="text-center needs-validation form-signin" method="post" action="{{ route('auth') }}" novalidate>
         <img class="mb-4" src="{{ url('img/icon.png') }}" alt="Parto com garfo e faca" width="90" height="90">
         <h1 class="h3 mb-3 fw-normal">Acessar o sistema</h1>
         @if ($errors->any())
@@ -11,17 +11,17 @@
             @endforeach
         @endif
         @csrf
-        <div class="form-floating text-start">
+        <div class="form-floating text-start w-100">
             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
                    placeholder="name@example.com" required value="{{ old('email') }}">
             <label for="email">E-mail</label>
         </div>
-        <div class="form-floating text-start">
+        <div class="form-floating text-start w-100">
             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
                    name="password" placeholder="Senha" required>
             <label for="password">Senha</label>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between w-100">
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" value=true name="remember"> Lembrar-me

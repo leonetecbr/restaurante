@@ -2,7 +2,10 @@
     "name": "leonetecbr/restaurante",
     "type": "project",
     "description": "Sistema de gerenciamento de restaurante",
-    "keywords": ["restauranyte", "laravel"],
+    "keywords": [
+        "restauranyte",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",

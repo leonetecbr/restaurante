@@ -9,9 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $casts = [
         'products' => 'array'
     ];
-
-    public $timestamps = false;
 }

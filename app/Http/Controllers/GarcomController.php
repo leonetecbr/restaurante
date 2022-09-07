@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class GarcomController extends Controller
 {
-    public function get(){
-        // TODO
+    /**
+     * @return View
+     */
+    public function get(): View
+    {
+        return view('garcom.dashboard');
     }
 }

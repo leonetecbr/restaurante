@@ -2,11 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function get(){
-        //TODO
+
+    /**
+     * @return View
+     */
+    public function get(): View
+    {
+        return view('admin.dashboard');
+    }
+
+    /**
+     * @return View
+     */
+    public function orders(): View
+    {
+        return view('admin.orders');
     }
 }
