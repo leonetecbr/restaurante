@@ -1,27 +1,27 @@
 @extends('admin.layout')
 @section('title', 'Produtos')
 @section('section')
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-        <div class="alert alert-danger text-center w-100 mb-3">{{ $error }}</div>
-    @endforeach
-@endif
-@if(Session::has('success'))
-    <div class="alert alert-success text-center w-100 mb-3">
-        {{ Session::get('success') }}
-    </div>
-@endif
-<div class="table-responsive">
-    <table class="table table-bordered text-center">
-        <thead class="fw-bold table-secondary">
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div class="alert alert-danger text-center w-100 mb-3">{{ $error }}</div>
+        @endforeach
+    @endif
+    @if(Session::has('success'))
+        <div class="alert alert-success text-center w-100 mb-3">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="fw-bold table-secondary">
             <tr>
                 <td>#</td>
                 <td>Nome</td>
                 <td>Valor</td>
                 <td>Editar</td>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach ($products as $product)
                 <tr id="product-{{ $product->id }}">
                     <td>{{ $product->id }}</td>
@@ -36,43 +36,44 @@
                     </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
-</div>
-{{ $products->links() }}
-<div class="modal" tabindex="-1" id="edit-value">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar valor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form data-action="{{ route('admin.products.edit', '') }}" class="needs-validation" novalidate method="post"
-                  id="form-edit">
-                @csrf
-                <div class="col-9 p-2 mx-auto">
-                    <div class="form-floating">
-                        <input type="text" disabled id="name-edit" class="form-control">
-                        <label for="name-edit">Produto</label>
-                    </div>
-                    <div class="mt-3">
-                        <label for="value-edit" class="mb-1 form-label">Valor</label>
-                        <div class="input-group">
-                            <span class="input-group-text">R$</span>
-                            <input type="number" step="0.01" min="0" required id="value-edit" name="value"
-                                   class="form-control">
-                            <div class="invalid-feedback text-center">
-                                O preço é obrigatório e não poder ser menor que 0
+            </tbody>
+        </table>
+    </div>
+    {{ $products->links() }}
+    <div class="modal" tabindex="-1" id="edit-value">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar valor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form data-action="{{ route('admin.products.edit', '') }}" class="needs-validation" novalidate
+                      method="post"
+                      id="form-edit">
+                    @csrf
+                    <div class="col-9 p-2 mx-auto">
+                        <div class="form-floating">
+                            <input type="text" disabled id="name-edit" class="form-control">
+                            <label for="name-edit">Produto</label>
+                        </div>
+                        <div class="mt-3">
+                            <label for="value-edit" class="mb-1 form-label">Valor</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="number" step="0.01" min="0" required id="value-edit" name="value"
+                                       class="form-control">
+                                <div class="invalid-feedback text-center">
+                                    O preço é obrigatório e não poder ser menor que 0
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Salvar</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 @endsection

@@ -19,12 +19,6 @@ class Table extends Model
         'busy' => 'boolean',
     ];
 
-    public function getBusyStatus(): string{
-        return ($this->busy)?
-            '<i class="bi bi-circle-fill text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Ocupada"></i>':
-            '<i class="bi bi-circle-fill text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Livre"></i>';
-    }
-
     public static function initialize(): void
     {
         $time = date('Y-m-d H:i:s');
@@ -46,5 +40,12 @@ class Table extends Model
                 'updated_at' => $time,
             ],
         ]);
+    }
+
+    public function getBusyStatus(): string
+    {
+        return ($this->busy) ?
+            '<i class="bi bi-circle-fill text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Ocupada"></i>' :
+            '<i class="bi bi-circle-fill text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Livre"></i>';
     }
 }

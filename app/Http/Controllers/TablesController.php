@@ -24,7 +24,8 @@ class TablesController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function new(Request $request): RedirectResponse{
+    public function new(Request $request): RedirectResponse
+    {
         $request->validate([
             'capacity' => 'required|integer|min:1',
         ]);
@@ -41,7 +42,8 @@ class TablesController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function edit(Table $table, Request $request): RedirectResponse{
+    public function edit(Table $table, Request $request): RedirectResponse
+    {
         $request->validate([
             'capacity' => 'required|integer|min:1',
         ]);
@@ -56,7 +58,8 @@ class TablesController extends Controller
      * @param Table $table
      * @return RedirectResponse
      */
-    public function delete(Table $table): RedirectResponse{
+    public function delete(Table $table): RedirectResponse
+    {
         $table->delete();
 
         return redirect()->back()->with('success', 'Mesa deletada com sucesso!');

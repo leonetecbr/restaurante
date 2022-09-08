@@ -13,14 +13,6 @@ class Product extends Model
     use HasFactory;
 
     /**
-     * @return string
-     */
-    public function getCurrentValue(): string
-    {
-        return 'R$ '.number_format($this->value, 2, ',', '.');
-    }
-
-    /**
      * @return void
      */
     public static function initialize(): void
@@ -55,5 +47,13 @@ class Product extends Model
                 'updated_at' => $time,
             ],
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentValue(): string
+    {
+        return 'R$ ' . number_format($this->value, 2, ',', '.');
     }
 }

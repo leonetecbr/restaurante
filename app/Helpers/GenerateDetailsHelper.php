@@ -21,20 +21,20 @@ class GenerateDetailsHelper
         $quantity = array_count_values($products);
         $products = array_unique($products);
 
-        foreach ($products as $product){
-            $match = $data[$product-1];
+        foreach ($products as $product) {
+            $match = $data[$product - 1];
             $value = $match->value * $quantity[$product];
             $result[] = [
                 'id' => $product,
                 'quantity' => $quantity[$product],
                 'name' => $match->name,
                 'unitaryValue' => $match->getCurrentValue(),
-                'value' => 'R$ '.number_format($value, 2, ',', '.'),
+                'value' => 'R$ ' . number_format($value, 2, ',', '.'),
             ];
             $sum += $value;
         }
 
-        $result['total'] = 'R$ '.number_format($sum, 2, ',', '.');
+        $result['total'] = 'R$ ' . number_format($sum, 2, ',', '.');
         return $result;
     }
 }

@@ -1,6 +1,6 @@
 const passwordInput = $('#password'), btnEditValue = $('.edit-value-btn'), btnEditCapacity = $('.edit-capacity-btn')
-const btnNewTable = $('#new-table-btn'), btnDetailTable = $('.detail-table-btn'), loadDetail =  $('#load-detail')
-const loadDetailError =  $('#load-detail-error'), detailDiv = $('#detail'), btnDetailOrder = $('.detail-order-btn')
+const btnNewTable = $('#new-table-btn'), btnDetailTable = $('.detail-table-btn'), loadDetail = $('#load-detail')
+const loadDetailError = $('#load-detail-error'), detailDiv = $('#detail'), btnDetailOrder = $('.detail-order-btn')
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -32,8 +32,8 @@ btnEditValue.on('click', function () {
     const productId = $(this).data('product-id'), modal = $('#edit-value'), form = $('#form-edit')
     let url
 
-    $('#name-edit').val($('#name-'+productId).html())
-    $('#value-edit').val($('#value-'+productId).data('value'))
+    $('#name-edit').val($('#name-' + productId).html())
+    $('#value-edit').val($('#value-' + productId).data('value'))
     url = form.data('action') + '/' + productId
     form.attr('action', url)
     new bootstrap.Modal(modal).show()
@@ -44,13 +44,13 @@ btnEditCapacity.on('click', function () {
     let url
 
     $('#table-edit').val(tableId)
-    $('#capacity-edit').val($('#capacity-'+tableId).data('capacity'))
+    $('#capacity-edit').val($('#capacity-' + tableId).data('capacity'))
     url = form.data('action') + '/' + tableId
     form.attr('action', url)
     new bootstrap.Modal(modal).show()
 })
 
-btnNewTable.on('click',  () => {
+btnNewTable.on('click', () => {
     const modal = $('#new-table')
     new bootstrap.Modal(modal).show()
 })
@@ -63,11 +63,11 @@ btnDetailTable.on('click', function () {
     getDetails('table', $(this).data('table-id'))
 })
 
-btnDetailOrder.on('click', function (){
+btnDetailOrder.on('click', function () {
     getDetails('order', $(this).data('order-id'))
 })
 
-function getDetails(typeData, itemId){
+function getDetails(typeData, itemId) {
     const modal = $('#detail-' + typeData)
     let url, data = {}
 
@@ -75,7 +75,7 @@ function getDetails(typeData, itemId){
     loadDetailError.addClass('d-none')
     detailDiv.addClass('d-none')
 
-    $('#detail-'+ typeData +'-id').html(itemId)
+    $('#detail-' + typeData + '-id').html(itemId)
     new bootstrap.Modal(modal).show()
     url = window.location.href.split('#')[0] // Retira a hash
     url = (url.endsWith('/')) ?
@@ -86,7 +86,7 @@ function getDetails(typeData, itemId){
         .then(function ({data}) {
             loadDetail.addClass('d-none')
             detailDiv.removeClass('d-none')
-            let productsHTML = (typeData === 'table') ?  generateHTML(data, itemId) : generateHTML(data)
+            let productsHTML = (typeData === 'table') ? generateHTML(data, itemId) : generateHTML(data)
             $('#products').html(productsHTML)
             $('#total-products').html(data.total)
         })
@@ -106,10 +106,10 @@ $(window).on('scroll', () => {
     }
 })
 
-function generateHTML(items, tableId = false){
+function generateHTML(items, tableId = false) {
     let itemsHTML = ''
 
-    for (let i = 0; typeof items[i] !== "undefined"; i++){
+    for (let i = 0; typeof items[i] !== "undefined"; i++) {
         const item = items[i]
         itemsHTML += `<li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
@@ -142,18 +142,18 @@ function hashChange() {
         $(lastId).removeClass('table-primary')
     }
 
-    if (hash.startsWith('#product-') || hash.startsWith('#table-')){
+    if (hash.startsWith('#product-') || hash.startsWith('#table-')) {
         if (window.location.hash) {
             let id = window.location.hash
             $(id).addClass('table-primary')
             lastId = id
         }
-    } else{
+    } else {
         lastId = undefined
     }
 }
 
-$(window).on('hashchange', function() {
+$(window).on('hashchange', function () {
     hashChange()
 })
 

@@ -23,7 +23,8 @@ class ProductsController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function edit(Product $product, Request $request): RedirectResponse{
+    public function edit(Product $product, Request $request): RedirectResponse
+    {
         $request->validate([
             'value' => 'required|min:0',
         ]);

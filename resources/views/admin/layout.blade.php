@@ -8,8 +8,8 @@
                         <li class="nav-item">
                             <a class="nav-link @if(Route::currentRouteName()==='admin')active @endif"
                                href="{{ route('admin') }}">
-                                <i class="bi bi-laptop"></i>
-                                Painel
+                                <i class="bi bi-bar-chart"></i>
+                                Resumo
                             </a>
                         </li>
                         <li class="nav-item">

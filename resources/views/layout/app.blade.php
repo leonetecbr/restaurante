@@ -14,7 +14,8 @@
     <meta name="theme-color" content="#0d6efd">
 </head>
 <body class="bg-light d-flex flex-column">
-<header class="navbar navbar-dark sticky-top align-content-center align-items-center bg-dark flex-md-nowrap px-2 shadow">
+<header
+    class="navbar navbar-dark sticky-top align-content-center align-items-center bg-dark flex-md-nowrap px-2 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 p-2" href="#">Restaurante</a>
     <div class="navbar-nav-scroll d-flex">
         <div class="nav-item text-nowrap text-light my-auto">
@@ -26,7 +27,9 @@
         </div>
         @if(Route::currentRouteName()!=='login')
             <div class="nav-item text-nowrap">
-                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>

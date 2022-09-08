@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Helpers\GenerateDetailsHelper;
+use App\Models\Order;
 use Illuminate\View\View;
 
 class OrdersController extends Controller

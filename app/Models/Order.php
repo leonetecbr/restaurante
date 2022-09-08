@@ -21,20 +21,20 @@ class Order extends Model
     ];
 
     /**
+     * @return string
+     */
+    public function getCurrentValue(): string
+    {
+        return 'R$ ' . number_format($this->value, 2, ',', '.');
+    }
+
+    /**
      * @return Attribute
      */
     protected function time(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => (new DateTime($value))->format('d/m/Y H:i:s'),
+            get: fn($value) => (new DateTime($value))->format('d/m/Y H:i:s'),
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrentValue(): string
-    {
-        return 'R$ '.number_format($this->value, 2, ',', '.');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $value
  * @property int $id
  * @property int $table_id
+ * @property int $time
  */
 class Payment extends Model
 {
@@ -19,32 +21,22 @@ class Payment extends Model
     public $timestamps = false;
 
     /**
-     * @return Attribute
+     * @return string
+     * @throws Exception
      */
-    protected function method(): Attribute
+    public function getTime(): string
     {
-        return Attribute::make(
-            get: fn ($value) => ucfirst($value),
-        );
+        return (new DateTime($this->time))->format('d/m/Y H:i:s');
     }
 
     /**
-     * @return Attribute
+     * @return string
      */
-    protected function time(): Attribute
+    public function getColor(): string
     {
-        return Attribute::make(
-            get: fn ($value) => (new DateTime($value))->format('d/m/Y H:i:s'),
-        );
-    }
-
-    /**
-     * @return string]
-     */
-    public function getColor(): string{
         $colors = ['primary', 'success', 'danger', 'warning', 'info', 'light'];
         $key = $this->table_id;
-        while ($key > 5){
+        while ($key > 5) {
             $key -= 6;
         }
         $color = $colors[$key];
@@ -56,6 +48,16 @@ class Payment extends Model
      */
     public function getCurrentValue(): string
     {
-        return 'R$ '.number_format($this->value, 2, ',', '.');
+        return 'R$ ' . number_format($this->value, 2, ',', '.');
+    }
+
+    /**
+     * @return Attribute
+     */
+    protected function method(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => ucfirst($value),
+        );
     }
 }
