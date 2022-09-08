@@ -12,8 +12,8 @@
     </div>
 @endif
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover text-center">
-        <thead class="fw-bold">
+    <table class="table table-bordered text-center">
+        <thead class="fw-bold table-secondary">
             <tr>
                 <td>#</td>
                 <td>Nome</td>
@@ -23,7 +23,7 @@
         </thead>
         <tbody>
             @foreach ($products as $product)
-                <tr>
+                <tr id="product-{{ $product->id }}">
                     <td>{{ $product->id }}</td>
                     <td id="name-{{ $product->id }}">{{ $product->name }}</td>
                     <td id="value-{{ $product->id }}" data-value={{ $product->value }}>
@@ -39,12 +39,13 @@
         </tbody>
     </table>
 </div>
+{{ $products->links() }}
 <div class="modal" tabindex="-1" id="edit-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar valor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form data-action="{{ route('admin.products.edit', '') }}" class="needs-validation" novalidate method="post"
                   id="form-edit">

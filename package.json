@@ -14,6 +14,7 @@
         "bootstrap": "latest",
         "jquery": "latest",
         "bootstrap-icons": "latest",
+        "axios": "latest",
         "laravel-mix": "^6.0.49"
     }
 }

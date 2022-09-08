@@ -50,8 +50,10 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
                 Route::get('/', 'get');
                 Route::post('/new', 'new')->name('.new');
+                Route::get('/{table:id}', 'api')->name('.api')->whereNumber('table');
                 Route::post('/edit/{table:id}', 'edit')->name('.edit')->whereNumber('table');
                 Route::get('/delete/{table:id}', 'delete')->name('.delete')->whereNumber('table');
+                Route::get('/delete/{table:id}/{product}', 'deleteProduct')->name('.delete.product')->whereNumber(['table', 'product']);
             });
 
         Route::controller(Controllers\PaymentsController::class)

@@ -19,8 +19,8 @@
     </div>
 @endif
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover text-center">
-        <thead class="fw-bold">
+    <table class="table table-bordered text-center">
+        <thead class="fw-bold table-secondary">
         <tr>
             <td>#</td>
             <td>Capacidade</td>
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
         @foreach ($tables as $table)
-            <tr>
+            <tr id="table-{{ $table->id }}">
                 <td>{{ $table->id }}</td>
                 <td id="capacity-{{ $table->id }}" data-capacity="{{ $table->capacity }}">{{ $table->capacity }} pessoas</td>
                 <td>
@@ -61,12 +61,13 @@
         </tbody>
     </table>
 </div>
+{{ $tables->links() }}
 <div class="modal" tabindex="-1" id="edit-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar capacidade</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form data-action="{{ route('admin.tables.edit', '') }}" class="needs-validation" novalidate method="post"
                   id="form-edit">
@@ -101,7 +102,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Nova mesa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('admin.tables.new') }}" class="needs-validation" novalidate method="post"
                   id="form-new">
@@ -124,4 +125,38 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="detail-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Produtos da mesa <span id="detail-table-id"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="load-detail" class="d-flex justify-content-center">
+                    <div class="loader"></div>
+                </div>
+                <div id="load-detail-error" class="d-none">
+                    <div class="alert alert-danger w-100 text-center">Não foi possível carregar os detalhes, tente novamente mais tarde!</div>
+                </div>
+                <div id="detail" class="d-none">
+                    <ul class="list-group mb-3">
+                        <div id="products"></div>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total</span>
+                            <strong id="total-products">R$ 0,00</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteItem = '{{ route('admin.tables.delete.product', ['','']) }}'
+    const productItem = '{{ route('admin.products') }}'
+</script>
 @endsection

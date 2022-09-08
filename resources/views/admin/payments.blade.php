@@ -2,8 +2,8 @@
 @section('title', 'Pagamentos')
 @section('section')
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover text-center">
-        <thead class="fw-bold">
+    <table class="table table-bordered text-center">
+        <thead class="fw-bold table-secondary">
         <tr>
             <td>#</td>
             <td>Valor</td>
@@ -18,7 +18,9 @@
             <tr>
                 <td>{{ $payment->id }}</td>
                 <td>{{ $payment->getCurrentValue() }}</td>
-                <td>{{ $payment->table_id }}</td>
+                <td>
+                    <a href="{{ route('admin.tables') }}#table-{{ $payment->table_id }}" class="text-decoration-none">{{ $payment->table_id }}</a>
+                </td>
                 <td>{{ $payment->client }}</td>
                 <td>{{ $payment->method }}</td>
                 <td>{{ $payment->time }}</td>
@@ -27,6 +29,7 @@
         </tbody>
     </table>
 </div>
+
 @endsection
 @section('plus')
 <form class="ms-2 col-lg-2 col-sm-3 col-5" id="form-select">

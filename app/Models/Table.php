@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed $busy
  * @property mixed $capacity
+ * @property mixed $products
  */
 class Table extends Model
 {
