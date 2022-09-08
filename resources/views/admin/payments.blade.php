@@ -15,11 +15,13 @@
         </thead>
         <tbody>
         @foreach($payments as $payment)
-            <tr>
+            <tr class="{{ $payment->getColor() }}">
                 <td>{{ $payment->id }}</td>
                 <td>{{ $payment->getCurrentValue() }}</td>
                 <td>
-                    <a href="{{ route('admin.tables') }}#table-{{ $payment->table_id }}" class="text-decoration-none">{{ $payment->table_id }}</a>
+                    <a href="{{ route('admin.tables') }}#table-{{ $payment->table_id }}" class="text-decoration-none">
+                        {{ $payment->table_id }}
+                    </a>
                 </td>
                 <td>{{ $payment->client }}</td>
                 <td>{{ $payment->method }}</td>
@@ -29,7 +31,7 @@
         </tbody>
     </table>
 </div>
-
+{{ $payments->links() }}
 @endsection
 @section('plus')
 <form class="ms-2 col-lg-2 col-sm-3 col-5" id="form-select">

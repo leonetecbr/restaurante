@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Model
 {
+    use HasFactory;
+
     /**
      * @return string
      */
@@ -17,8 +19,6 @@ class Product extends Model
     {
         return 'R$ '.number_format($this->value, 2, ',', '.');
     }
-
-    use HasFactory;
 
     /**
      * @return void

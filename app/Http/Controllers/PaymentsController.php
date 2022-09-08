@@ -18,9 +18,8 @@ class PaymentsController extends Controller
     public function get(Request $request): View
     {
         if (!$request->filled('period-payment')) {
-            $payments = Payment::paginate();
+            $payments = Payment::orderBy('table_id')->paginate();
         } else{
-            $payments = [];
             $days = $request->input('period-payment');
             if ($days != -1) {
                 $date_end = date('Y-m-d');
@@ -34,7 +33,7 @@ class PaymentsController extends Controller
 
             $query = Payment::query();
             $query->whereDate('time', '>=', $date_start);
-            $query->whereDate('time', '<=', $date_end);
+            $query->whereDate('time', '<=', $date_end)->orderBy('table_id');
             $payments = $query->paginate();
         }
         return view('admin.payments', ['payments' => $payments]);

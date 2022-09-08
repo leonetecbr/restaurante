@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
 
     /**
      * @return View
      */
-    public function get(): View
+    public function admin(): View
     {
         return view('admin.dashboard');
     }
@@ -18,8 +18,8 @@ class AdminController extends Controller
     /**
      * @return View
      */
-    public function orders(): View
+    public function garcom(): View
     {
-        return view('admin.orders');
+        return view('garcom.dashboard');
     }
 }

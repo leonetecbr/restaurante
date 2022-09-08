@@ -1,6 +1,6 @@
-const passwordInput = $('#password'), btnEditValue = $('.btn-edit-value'), btnEditCapacity = $('.btn-edit-capacity')
-const btnNewTable = $('#btn-new-table'), btnDetailTable = $('.detail-table'), loadDetail =  $('#load-detail')
-const loadDetailError =  $('#load-detail-error'), detailDiv = $('#detail')
+const passwordInput = $('#password'), btnEditValue = $('.edit-value-btn'), btnEditCapacity = $('.edit-capacity-btn')
+const btnNewTable = $('#new-table-btn'), btnDetailTable = $('.detail-table-btn'), loadDetail =  $('#load-detail')
+const loadDetailError =  $('#load-detail-error'), detailDiv = $('#detail'), btnDetailOrder = $('.detail-order-btn')
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -29,8 +29,9 @@ $('#show-pass').on('click', () => {
 })
 
 btnEditValue.on('click', function () {
-    const productId = $(this).data('product-id'), modal = $('#edit-modal'), form = $('#form-edit')
+    const productId = $(this).data('product-id'), modal = $('#edit-value'), form = $('#form-edit')
     let url
+
     $('#name-edit').val($('#name-'+productId).html())
     $('#value-edit').val($('#value-'+productId).data('value'))
     url = form.data('action') + '/' + productId
@@ -39,8 +40,9 @@ btnEditValue.on('click', function () {
 })
 
 btnEditCapacity.on('click', function () {
-    const tableId = $(this).data('table-id'), modal = $('#edit-modal'), form = $('#form-edit')
+    const tableId = $(this).data('table-id'), modal = $('#edit-capacity'), form = $('#form-edit')
     let url
+
     $('#table-edit').val(tableId)
     $('#capacity-edit').val($('#capacity-'+tableId).data('capacity'))
     url = form.data('action') + '/' + tableId
@@ -49,7 +51,7 @@ btnEditCapacity.on('click', function () {
 })
 
 btnNewTable.on('click',  () => {
-    const modal = $('#new-modal')
+    const modal = $('#new-table')
     new bootstrap.Modal(modal).show()
 })
 
@@ -58,37 +60,33 @@ $('#period-payment').on('change', () => {
 })
 
 btnDetailTable.on('click', function () {
+    getDetails('table', $(this).data('table-id'))
+})
+
+btnDetailOrder.on('click', function (){
+    getDetails('order', $(this).data('order-id'))
+})
+
+function getDetails(typeData, itemId){
+    const modal = $('#detail-' + typeData)
+    let url, data = {}
+
     loadDetail.removeClass('d-none')
     loadDetailError.addClass('d-none')
     detailDiv.addClass('d-none')
-    const modal = $('#detail-modal')
-    let tableId = $(this).data('table-id'), url
-    $('#detail-table-id').html(tableId)
+
+    $('#detail-'+ typeData +'-id').html(itemId)
     new bootstrap.Modal(modal).show()
-    url = (window.location.href.endsWith('/')) ?
-        window.location.href + tableId :
-        window.location.href + '/' + tableId
+    url = window.location.href.split('#')[0] // Retira a hash
+    url = (url.endsWith('/')) ?
+        url + itemId :
+        url + '/' + itemId
+
     axios.get(url)
         .then(function ({data}) {
             loadDetail.addClass('d-none')
             detailDiv.removeClass('d-none')
-            let productsHTML = ''
-            for (let i = 0; typeof data[i] !== "undefined"; i++){
-                productsHTML += `<li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-1">
-                            <span class="badge bg-primary rounded-pill">${data[i]['quantity']}</span>
-                            <a href="${productItem}#product-${data[i].id}" class="text-decoration-none">${data[i].name}</a>
-                        </h6>
-                        <small class="text-muted">${data[i]['unitaryValue']}</small>
-                    </div>
-                    <div>
-                        <span class="text-muted me-2">${data[i]['value']}</span>
-                        <a class="text-danger fw-bold pointer" href="${deleteItem}/${tableId}/${data[i].id}"><i class="bi bi-x"></i></a>
-                    </div>
-                </li>`
-            }
-            console.log(productsHTML)
+            let productsHTML = (typeData === 'table') ?  generateHTML(data, itemId) : generateHTML(data)
             $('#products').html(productsHTML)
             $('#total-products').html(data.total)
         })
@@ -98,7 +96,7 @@ btnDetailTable.on('click', function () {
             loadDetailError.removeClass('d-none')
             console.log(error)
         })
-})
+}
 
 $(window).on('scroll', () => {
     if ($(window).scrollTop() > 62) {
@@ -108,15 +106,50 @@ $(window).on('scroll', () => {
     }
 })
 
-function hashChange(){
-    if (lastId){
+function generateHTML(items, tableId = false){
+    let itemsHTML = ''
+
+    for (let i = 0; typeof items[i] !== "undefined"; i++){
+        const item = items[i]
+        itemsHTML += `<li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-1">
+                            <span class="badge bg-primary rounded-pill">${item['quantity']}</span>
+                            <a href="${productItem}#product-${item.id}" class="text-decoration-none">${item.name}</a>
+                        </h6>
+                        <small class="text-muted">${item['unitaryValue']}</small>
+                    </div>
+                    <div>
+                        <span class="text-muted me-2">${item['value']}</span>`
+
+        if (tableId) {
+            itemsHTML += `<a class="text-danger fw-bold text-decoration-none" href="${deleteItem}/${tableId}/${item.id}">
+                            <i class="bi bi-x"></i>
+                          </a>`
+        }
+
+        itemsHTML += `</div>
+                    </li>`
+    }
+
+    return itemsHTML
+}
+
+function hashChange() {
+    let hash = window.location.hash
+
+    if (lastId) {
         $(lastId).removeClass('table-primary')
     }
 
-    if (window.location.hash) {
-        let id = window.location.hash
-        $(id).addClass('table-primary')
-        lastId = id
+    if (hash.startsWith('#product-') || hash.startsWith('#table-')){
+        if (window.location.hash) {
+            let id = window.location.hash
+            $(id).addClass('table-primary')
+            lastId = id
+        }
+    } else{
+        lastId = undefined
     }
 }
 

@@ -6,8 +6,8 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::currentRouteName()==='admin.home')active @endif"
-                               href="{{ route('admin.home') }}">
+                            <a class="nav-link @if(Route::currentRouteName()==='admin')active @endif"
+                               href="{{ route('admin') }}">
                                 <i class="bi bi-laptop"></i>
                                 Painel
                             </a>

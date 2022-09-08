@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Helpers\GenerateDetailsHelper;
 use App\Models\Table;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,28 +68,7 @@ class TablesController extends Controller
      */
     public function api(Table $table): array
     {
-        $result = [];
-        $sum = 0;
-        $data = Product::all();
-        $products = $table->products;
-        $quantity = array_count_values($products);
-        $products = array_unique($products);
-
-        foreach ($products as $product){
-            $match = $data[$product-1];
-            $value = $match->value * $quantity[$product];
-            $result[] = [
-                'id' => $product,
-                'quantity' => $quantity[$product],
-                'name' => $match->name,
-                'unitaryValue' => $match->getCurrentValue(),
-                'value' => 'R$ '.number_format($value, 2, ',', '.'),
-            ];
-            $sum += $value;
-        }
-
-        $result['total'] = 'R$ '.number_format($sum, 2, ',', '.');
-        return $result;
+        return GenerateDetailsHelper::api($table);
     }
 
     /**

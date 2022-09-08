@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property mixed $busy
- * @property mixed $capacity
- * @property mixed $products
+ * @property bool $busy
+ * @property int $capacity
+ * @property array $products
  */
 class Table extends Model
 {

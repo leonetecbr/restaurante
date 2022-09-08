@@ -20,7 +20,7 @@ class UserController extends Controller
     public function get(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return to_route('dashboard');
+            return to_route(Auth::user()->type);
         } else {
             return view('login');
         }
@@ -40,7 +40,7 @@ class UserController extends Controller
         ]);
 
         if (Auth::attempt($dados, $request->input('remember'))) {
-            return to_route('dashboard');
+            return to_route(Auth::user()->type);
         } else {
             return redirect()->back()->withErrors([
                 'password' => ['E-mail e/ou senha inválidos!']

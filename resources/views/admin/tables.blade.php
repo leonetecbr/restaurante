@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('title', 'Mesas')
 @section('plus')
-<div class="me-3 me-md-4 me-lg-5 pe-sm-1 pe-md-2 pe-xl-4" id="btn-new-table">
+<div class="me-3 me-md-4 me-lg-5 pe-sm-1 pe-md-2 pe-xl-4" id="new-table-btn">
     <button class="ms-auto btn btn-primary rounded-button-42">
         <i class="bi bi-plus"></i>
     </button>
@@ -38,16 +38,16 @@
                 <td>
                     @if ($table->busy)
                     {{ count($table->products) }} -
-                    <span class="text-primary pointer detail-table" data-table-id="{{ $table->id }}">
+                    <a href="#detail-table" class="text-primary text-decoration-none detail-table-btn" data-table-id="{{ $table->id }}">
                         Detalhar
-                    </span>
+                    </a>
                     @else
                         -
                     @endif
                 </td>
                 <td>{!! $table->getBusyStatus() !!}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm btn-edit-capacity" data-table-id={{ $table->id }}>
+                    <button class="btn btn-primary btn-sm edit-capacity-btn" data-table-id={{ $table->id }}>
                         <i class="bi bi-pencil"></i>
                     </button>
                 </td>
@@ -62,7 +62,7 @@
     </table>
 </div>
 {{ $tables->links() }}
-<div class="modal" tabindex="-1" id="edit-modal">
+<div class="modal" tabindex="-1" id="edit-capacity">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,7 +97,7 @@
         </div>
     </div>
 </div>
-<div class="modal" tabindex="-1" id="new-modal">
+<div class="modal" tabindex="-1" id="new-table">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -125,7 +125,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="detail-modal" tabindex="-1">
+<div class="modal fade" id="detail-table" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
