@@ -32,6 +32,8 @@ class ProductsController extends Controller
         $product->value = $request->input('value');
         $product->save();
 
-        return redirect()->back()->with('success', 'Valor alterado com sucesso!');
+        $name = (ctype_upper($product->name)) ? $product->name : lcfirst($product->name);
+
+        return redirect()->back()->with('success', 'Valor do '.$name.' alterado com sucesso!');
     }
 }

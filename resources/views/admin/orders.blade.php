@@ -18,7 +18,7 @@
                     <td>{{ $order->id }}</td>
                     <td>
                         {{ count($order->products) }} -
-                        <a href="#detail-order" class="text-primary detail-order-btn text-decoration-none"
+                        <a href="#detail-order" class="text-primary btn-detail-order text-decoration-none"
                            data-order-id="{{ $order->id }}">
                             Detalhar
                         </a>
@@ -40,15 +40,15 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel">Produtos do pedido <span
+                    <h5 class="modal-title">Produtos do pedido #<span
                             id="detail-order-id"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="load-detail" class="d-flex justify-content-center">
+                    <div id="load" class="d-flex justify-content-center">
                         <div class="loader"></div>
                     </div>
-                    <div id="load-detail-error" class="d-none">
+                    <div id="load-error" class="d-none">
                         <div class="alert alert-danger w-100 text-center">Não foi possível carregar os detalhes, tente
                             novamente mais tarde!
                         </div>
@@ -70,6 +70,6 @@
         </div>
     </div>
     <script>
-        const productItem = '{{ route('admin.products') }}'
+        const productItem = '{{ route('admin.products') }}', apiDetails = '{{ route('orders.api', 0) }}'
     </script>
 @endsection

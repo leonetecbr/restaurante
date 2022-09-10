@@ -1,6 +1,16 @@
 @extends('admin.layout')
 @section('title', 'Pagamentos')
 @section('section')
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div class="alert alert-danger text-center w-100 mb-3">{{ $error }}</div>
+        @endforeach
+    @endif
+    @if(Session::has('success'))
+        <div class="alert alert-success text-center w-100 mb-3">
+            {{ Session::get('success') }}
+        </div>
+    @endif
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-center">
             <thead class="fw-bold table-secondary">

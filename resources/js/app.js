@@ -1,11 +1,8 @@
-const passwordInput = $('#password'), btnEditValue = $('.edit-value-btn'), btnEditCapacity = $('.edit-capacity-btn')
-const btnNewTable = $('#new-table-btn'), btnDetailTable = $('.detail-table-btn'), loadDetail = $('#load-detail')
-const loadDetailError = $('#load-detail-error'), detailDiv = $('#detail'), btnDetailOrder = $('.detail-order-btn')
+const load = $('#load'), loadError = $('#load-error'), divManageTable = $('#manage-table')
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-})
 let lastId
+
+tooltipTriggerList.map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl))
 
 $('.needs-validation').on('submit', function (e) {
     if (!this.checkValidity()) {
@@ -17,6 +14,8 @@ $('.needs-validation').on('submit', function (e) {
 })
 
 $('#show-pass').on('click', () => {
+    const passwordInput = $('#password')
+
     if (passwordInput.attr('type') === 'password') {
         passwordInput.attr('type', 'text')
         $('#icon-show-pass').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
@@ -28,7 +27,7 @@ $('#show-pass').on('click', () => {
     }
 })
 
-btnEditValue.on('click', function () {
+$('.btn-edit-value').on('click', function () {
     const productId = $(this).data('product-id'), modal = $('#edit-value'), form = $('#form-edit')
     let url
 
@@ -39,7 +38,7 @@ btnEditValue.on('click', function () {
     new bootstrap.Modal(modal).show()
 })
 
-btnEditCapacity.on('click', function () {
+$('.btn-edit-capacity').on('click', function () {
     const tableId = $(this).data('table-id'), modal = $('#edit-capacity'), form = $('#form-edit')
     let url
 
@@ -50,50 +49,87 @@ btnEditCapacity.on('click', function () {
     new bootstrap.Modal(modal).show()
 })
 
-btnNewTable.on('click', () => {
+$('#btn-new-table').on('click', () => {
     const modal = $('#new-table')
     new bootstrap.Modal(modal).show()
 })
+
+$('#manage-table-close').on('click',  () => divManageTable.addClass('d-none'))
 
 $('#period-payment').on('change', () => {
     $('#form-select').trigger('submit')
 })
 
-btnDetailTable.on('click', function () {
+$('.btn-detail-table').on('click', function () {
     getDetails('table', $(this).data('table-id'))
 })
 
-btnDetailOrder.on('click', function () {
+$('.btn-manage-table').on('click', function () {
+    const tableId = $(this).data('table-id'), divManage = $('#manage'), btnManage = $('#btn-manage')
+
+    load.removeClass('d-none')
+    loadError.addClass('d-none')
+    divManage.addClass('d-none')
+    btnManage.addClass('d-none')
+
+    $('#manage-table-id').html(tableId)
+
+    divManageTable.removeClass('d-none')
+    axios.get(apiDetails.replace('0', tableId))
+        .then(function ({data}) {
+            load.addClass('d-none')
+            divManage.removeClass('d-none')
+            btnManage.removeClass('d-none')
+
+            const productsHTML = generateHTML(data, tableId, false)
+            const btnVacantTable =  $('#btn-vacant-table')
+
+            if (typeof data[0] === 'undefined') {
+                $('#btn-close-bill').addClass('d-none')
+                btnVacantTable.removeClass('d-none')
+                btnVacantTable.attr('href', btnVacantTable.data('href') + '/' + tableId)
+            }
+            else {
+                btnVacantTable.addClass('d-none')
+                $('#btn-close-bill').removeClass('d-none')
+            }
+            $('#products').html(productsHTML)
+            $('#total-products').html(data.total)
+        })
+        .catch(function (error) {
+            load.addClass('d-none')
+            divManage.addClass('d-none')
+            loadError.removeClass('d-none')
+            console.log(error)
+        })
+})
+
+$('.btn-detail-order').on('click', function () {
     getDetails('order', $(this).data('order-id'))
 })
 
 function getDetails(typeData, itemId) {
-    const modal = $('#detail-' + typeData)
-    let url, data = {}
+    const modal = $('#detail-' + typeData), divDetail = $('#detail')
 
-    loadDetail.removeClass('d-none')
-    loadDetailError.addClass('d-none')
-    detailDiv.addClass('d-none')
+    load.removeClass('d-none')
+    loadError.addClass('d-none')
+    divDetail.addClass('d-none')
 
     $('#detail-' + typeData + '-id').html(itemId)
     new bootstrap.Modal(modal).show()
-    url = window.location.href.split('#')[0] // Retira a hash
-    url = (url.endsWith('/')) ?
-        url + itemId :
-        url + '/' + itemId
 
-    axios.get(url)
+    axios.get(apiDetails.replace('0', itemId))
         .then(function ({data}) {
-            loadDetail.addClass('d-none')
-            detailDiv.removeClass('d-none')
+            load.addClass('d-none')
+            divDetail.removeClass('d-none')
             let productsHTML = (typeData === 'table') ? generateHTML(data, itemId) : generateHTML(data)
             $('#products').html(productsHTML)
             $('#total-products').html(data.total)
         })
         .catch(function (error) {
-            loadDetail.addClass('d-none')
-            detailDiv.addClass('d-none')
-            loadDetailError.removeClass('d-none')
+            load.addClass('d-none')
+            divDetail.addClass('d-none')
+            loadError.removeClass('d-none')
             console.log(error)
         })
 }
@@ -106,30 +142,37 @@ $(window).on('scroll', () => {
     }
 })
 
-function generateHTML(items, tableId = false) {
+function generateHTML(items, tableId = false, links = true) {
     let itemsHTML = ''
 
-    for (let i = 0; typeof items[i] !== "undefined"; i++) {
-        const item = items[i]
-        itemsHTML += `<li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-1">
-                            <span class="badge bg-primary rounded-pill">${item['quantity']}</span>
-                            <a href="${productItem}#product-${item.id}" class="text-decoration-none">${item.name}</a>
-                        </h6>
-                        <small class="text-muted">${item['unitaryValue']}</small>
-                    </div>
-                    <div>
-                        <span class="text-muted me-2">${item['value']}</span>`
+    if (typeof items[0] === 'undefined') itemsHTML = '<li class="list-group-item text-muted text-center">Não há produtos nessa mesa!</li>'
+    else {
+        for (let i = 0; typeof items[i] !== 'undefined'; i++) {
+            const item = items[i]
+            itemsHTML += `<li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-1">
+                                <span class="badge bg-primary rounded-pill me-1">${item['quantity']}</span>`
 
-        if (tableId) {
-            itemsHTML += `<a class="text-danger fw-bold text-decoration-none" href="${deleteItem}/${tableId}/${item.id}">
-                            <i class="bi bi-x"></i>
-                          </a>`
+            if (links) itemsHTML +=  `<a href="${productItem}#product-${item.id}" class="text-decoration-none">${item.name}</a>`
+            else itemsHTML += item.name
+
+            itemsHTML +=    `</h6>
+                            <small class="text-muted">${item['unitaryValue']}</small>
+                        </div>
+                        <div>
+                            <span class="text-muted me-2">${item['value']}</span>`
+
+            if (tableId) {
+                itemsHTML += `<a class="text-danger fw-bold text-decoration-none"
+                                 href="${deleteItem}/${tableId}/${item.id}">
+                                <i class="bi bi-x"></i>
+                              </a>`
+            }
+
+            itemsHTML += `</div>
+                        </li>`
         }
-
-        itemsHTML += `</div>
-                    </li>`
     }
 
     return itemsHTML

@@ -34,7 +34,7 @@ class TablesController extends Controller
         $table->capacity = $request->input('capacity');
         $table->save();
 
-        return redirect()->back()->with('success', 'Mesa criada com sucesso!');
+        return redirect()->back()->with('success', 'Mesa #'.$table->id.' criada com sucesso!');
     }
 
     /**
@@ -62,7 +62,7 @@ class TablesController extends Controller
     {
         $table->delete();
 
-        return redirect()->back()->with('success', 'Mesa deletada com sucesso!');
+        return redirect()->back()->with('success', 'Mesa #'.$table->id.' deletada com sucesso!');
     }
 
     /**
@@ -85,5 +85,19 @@ class TablesController extends Controller
         $table->save();
 
         return redirect()->back()->with('success', 'Produto deletado com sucesso!');
+    }
+
+    /**
+     * @param Table $table
+     * @return RedirectResponse
+     */
+    public function busy(Table $table): RedirectResponse
+    {
+        $table->busy = !$table->busy;
+        $table->save();
+
+        $status = ($table->busy) ? 'ocupada' : 'desocupada';
+
+        return redirect()->back()->with('success', 'Mesa #'.$table->id.' '.$status.' com sucesso!');
     }
 }

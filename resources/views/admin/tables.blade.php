@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('title', 'Mesas')
 @section('plus')
-    <div class="me-3 me-md-4 me-lg-5 pe-sm-1 pe-md-2 pe-xl-4" id="new-table-btn">
+    <div class="me-3 me-md-4 me-lg-5 pe-sm-1 pe-md-2 pe-xl-4" id="btn-new-table">
         <button class="ms-auto btn btn-primary rounded-button-42">
             <i class="bi bi-plus"></i>
         </button>
@@ -40,7 +40,7 @@
                     <td>
                         @if ($table->busy)
                             {{ count($table->products) }} -
-                            <a href="#detail-table" class="text-primary text-decoration-none detail-table-btn"
+                            <a href="#detail-table" class="text-primary text-decoration-none btn-detail-table"
                                data-table-id="{{ $table->id }}">
                                 Detalhar
                             </a>
@@ -50,7 +50,7 @@
                     </td>
                     <td>{!! $table->getBusyStatus() !!}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm edit-capacity-btn" data-table-id={{ $table->id }}>
+                        <button class="btn btn-primary btn-sm btn-edit-capacity" data-table-id={{ $table->id }}>
                             <i class="bi bi-pencil"></i>
                         </button>
                     </td>
@@ -134,15 +134,15 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel">Produtos da mesa <span
+                    <h5 class="modal-title">Produtos da mesa #<span
                             id="detail-table-id"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="load-detail" class="d-flex justify-content-center">
+                    <div id="load" class="d-flex justify-content-center">
                         <div class="loader"></div>
                     </div>
-                    <div id="load-detail-error" class="d-none">
+                    <div id="load-error" class="d-none">
                         <div class="alert alert-danger w-100 text-center">Não foi possível carregar os detalhes, tente
                             novamente mais tarde!
                         </div>
@@ -165,6 +165,6 @@
     </div>
     <script>
         const deleteItem = '{{ route('admin.tables.delete.product', ['','']) }}'
-        const productItem = '{{ route('admin.products') }}'
+        const productItem = '{{ route('admin.products') }}', apiDetails = '{{ route('tables.api', 0) }}'
     </script>
 @endsection

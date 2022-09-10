@@ -2,7 +2,7 @@ body {
     height: 100vh;
 }
 
-.rounded-button-42{
+.rounded-button-42 {
     width: 38px;
     height: 38px;
     font-size: 25px;
@@ -65,12 +65,20 @@ body {
 }
 
 @-webkit-keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 

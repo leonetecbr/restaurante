@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Table;
 use Exception;
 use Illuminate\View\View;
 
@@ -40,6 +41,7 @@ class DashboardController extends Controller
     private function countData(array $data, array $dates): array
     {
         $transactions = [0, 0, 0, 0, 0, 0, 0];
+        $sales = [0, 0, 0, 0, 0, 0, 0];
         $values = [0, 0, 0, 0, 0, 0, 0];
 
         foreach ($data as $pay) {
@@ -47,6 +49,9 @@ class DashboardController extends Controller
             foreach ($dates as $i => $date) {
                 if ($time === $date) {
                     $transactions[$i] += 1;
+                    if ($pay['client'] === 1) {
+                        $sales[$i] += 1;
+                    }
                     $values[$i] += $pay['value'];
                 }
             }
@@ -55,6 +60,7 @@ class DashboardController extends Controller
         return [
             'dates' => $dates,
             'transactions' => $transactions,
+            'sales' => $sales,
             'values' => $values,
         ];
     }
@@ -64,6 +70,7 @@ class DashboardController extends Controller
      */
     public function garcom(): View
     {
-        return view('garcom.dashboard');
+        $tables = Table::all();
+        return view('garcom.dashboard', ['tables' => $tables]);
     }
 }

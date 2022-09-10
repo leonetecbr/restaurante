@@ -30,7 +30,7 @@
                         {{ $product->getCurrentValue() }}
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm edit-value-btn" data-product-id={{ $product->id }}>
+                        <button class="btn btn-primary btn-sm btn-edit-value" data-product-id={{ $product->id }}>
                             <i class="bi bi-pencil"></i>
                         </button>
                     </td>

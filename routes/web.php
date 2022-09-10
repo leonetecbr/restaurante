@@ -31,32 +31,35 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
                 Route::get('/', 'get');
                 Route::post('/edit/{product:id}', 'edit')->name('.edit')->whereNumber('product');
-            });
+        });
 
         Route::controller(Controllers\TablesController::class)->prefix('tables')
             ->name('.tables')->group(function () {
 
                 Route::get('/', 'get');
                 Route::post('/new', 'new')->name('.new');
-                Route::get('/{table:id}', 'api')->name('.api')->whereNumber('table');
                 Route::post('/edit/{table:id}', 'edit')->name('.edit')->whereNumber('table');
                 Route::get('/delete/{table:id}', 'delete')->name('.delete')->whereNumber('table');
                 Route::get('/delete/{table:id}/{product}', 'deleteProduct')->name('.delete.product')->whereNumber(['table', 'product']);
-            });
+        });
 
-        Route::controller(Controllers\OrdersController::class)->prefix('orders')
-            ->name('.orders')->group(function () {
-
-                Route::get('/', 'get');
-                Route::get('/{order:id}', 'api')->name('.api')->whereNumber('order');
-            });
+        Route::get('/orders', [Controllers\OrdersController::class, 'get'])->name('.orders');
 
         Route::get('/payments', [Controllers\PaymentsController::class, 'get'])->name('.payments');
     });
+
+    Route::get('/orders/{order:id}/products', [Controllers\OrdersController::class, 'api'])->name('orders.api')
+        ->whereNumber('order');
+
+    Route::get('/tables/{table:id}/products', [Controllers\TablesController::class ,'api'])->name('tables.api')
+        ->whereNumber('table');
 
     Route::name('garcom')->middleware('isGarcom')
         ->prefix('garcom')->group(function () {
 
             Route::get('/', [Controllers\DashboardController::class, 'garcom']);
+
+            Route::get('/tables/busy/{table:id}', [Controllers\TablesController::class, 'busy'])
+                ->name('.tables.busy')->whereNumber('table');
         });
 });

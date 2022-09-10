@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $busy
  * @property int $capacity
  * @property array $products
+ * @property int $id
  */
 class Table extends Model
 {
