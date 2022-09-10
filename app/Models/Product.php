@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property float $value
+ * @property int $id
  * @property string $name
+ * @property float $value
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Product extends Model
 {
@@ -57,7 +60,7 @@ class Product extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => ucfirst($value),
+            get: fn($value) =>  ucfirst($value),
         );
     }
 

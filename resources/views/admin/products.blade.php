@@ -26,11 +26,13 @@
                 <tr id="product-{{ $product->id }}">
                     <td>{{ $product->id }}</td>
                     <td id="name-{{ $product->id }}">{{ $product->name }}</td>
-                    <td id="value-{{ $product->id }}" data-value={{ $product->value }}>
+                    <td id="value-{{ $product->id }}">
                         {{ $product->getCurrentValue() }}
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm btn-edit-value" data-product-id={{ $product->id }}>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-value"
+                                data-product-id="{{ $product->id }}" data-value="{{ $product->value }}"
+                                data-action="{{ route('admin.products.edit', $product->id) }}">
                             <i class="bi bi-pencil"></i>
                         </button>
                     </td>
@@ -44,26 +46,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar valor</h5>
+                    <h5 class="modal-title">Editar valor do(a) <span id="name-product"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form data-action="{{ route('admin.products.edit', '') }}" class="needs-validation" novalidate
-                      method="post"
-                      id="form-edit">
+                <form class="needs-validation" novalidate method="post" id="form-edit">
                     @csrf
-                    <div class="col-9 p-2 mx-auto">
-                        <div class="form-floating">
-                            <input type="text" disabled id="name-edit" class="form-control">
-                            <label for="name-edit">Produto</label>
-                        </div>
-                        <div class="mt-3">
-                            <label for="value-edit" class="mb-1 form-label">Valor</label>
+                    <div class="modal-body">
+                        <div class="col-9 mx-auto">
+                            <label for="value-product" class="form-label">Valor</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
-                                <input type="number" step="0.01" min="0" required id="value-edit" name="value"
+                                <input type="number" step="0.01" min="0" required id="value-product" name="value"
                                        class="form-control">
                                 <div class="invalid-feedback text-center">
-                                    O preço é obrigatório e não poder ser menor que 0
+                                    O preço é obrigatório e não poder ser menor que 0!
                                 </div>
                             </div>
                         </div>

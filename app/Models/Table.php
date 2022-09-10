@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property bool $busy
- * @property int $capacity
- * @property array $products
  * @property int $id
+ * @property int $capacity
+ * @property bool $busy
+ * @property array $products
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Table extends Model
 {

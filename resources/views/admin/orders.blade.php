@@ -18,7 +18,7 @@
                     <td>{{ $order->id }}</td>
                     <td>
                         {{ count($order->products) }} -
-                        <a href="#detail-order" class="text-primary btn-detail-order text-decoration-none"
+                        <a href="#detail-order" class="text-primary text-decoration-none" data-bs-toggle="modal"
                            data-order-id="{{ $order->id }}">
                             Detalhar
                         </a>
@@ -45,8 +45,49 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="load" class="d-flex justify-content-center">
-                        <div class="loader"></div>
+                    <div id="load" class="placeholder-glow mb-3 d-none">
+                        <ul class="list-group mb-3 placeholder-glow">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div class="col-6">
+                                    <h6 class="my-1 d-flex">
+                                        <span class="placeholder bg-primary me-1 col-2"></span>
+                                        <span class="placeholder col-7"></span>
+                                    </h6>
+                                    <small class="placeholder col-4 text-muted"></small>
+                                </div>
+                                <div class="col-3">
+                                    <span class="placeholder text-muted me-2 col-12"></span>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div class="col-6">
+                                    <h6 class="my-1 d-flex">
+                                        <span class="placeholder bg-primary me-1 col-2"></span>
+                                        <span class="placeholder col-7"></span>
+                                    </h6>
+                                    <small class="placeholder col-4 text-muted"></small>
+                                </div>
+                                <div class="col-3">
+                                    <span class="placeholder text-muted me-2 col-12"></span>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div class="col-6">
+                                    <h6 class="my-1 d-flex">
+                                        <span class="placeholder bg-primary me-1 col-2"></span>
+                                        <span class="placeholder col-7"></span>
+                                    </h6>
+                                    <small class="placeholder col-4 text-muted"></small>
+                                </div>
+                                <div class="col-3">
+                                    <span class="placeholder text-muted me-2 col-12"></span>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="placeholder col-2 text-muted"></span>
+                                <strong class="placeholder col-3"></strong>
+                            </li>
+                        </ul>
                     </div>
                     <div id="load-error" class="d-none">
                         <div class="alert alert-danger w-100 text-center">Não foi possível carregar os detalhes, tente

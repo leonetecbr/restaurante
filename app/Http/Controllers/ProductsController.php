@@ -32,8 +32,14 @@ class ProductsController extends Controller
         $product->value = $request->input('value');
         $product->save();
 
-        $name = (ctype_upper($product->name)) ? $product->name : lcfirst($product->name);
+        if (strtoupper($product->name) == $product->name){
+            $name = $product->name;
+        } elseif (mb_strlen($product->name) <= 1){
+            $name = mb_strtolower($product->name);
+        } else{
+            $name = mb_strtolower(mb_substr($product->name, 0, 1)) . mb_substr($product->name, 1, mb_strlen($product->name));
+        }
 
-        return redirect()->back()->with('success', 'Valor do '.$name.' alterado com sucesso!');
+        return redirect()->back()->with('success', 'Valor do(a) '.$name.' alterado com sucesso!');
     }
 }

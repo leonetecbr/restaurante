@@ -13,7 +13,7 @@
     <link rel="apple-touch-icon" href="{{ url('favicon.ico') }}" sizes="90x90" type="image/x-icon">
     <meta name="theme-color" content="#0d6efd">
 </head>
-<body class="bg-light d-flex flex-column">
+<body class="bg-light d-flex flex-column min-vh-100">
 <header
     class="navbar navbar-dark sticky-top align-content-center align-items-center bg-dark flex-md-nowrap px-2 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 p-2" href="#">Restaurante</a>
@@ -37,7 +37,7 @@
     </div>
 </header>
 @yield('content')
-<footer class="text-center mt-auto">
+<footer class="text-center mt-auto pt-2 border-top">
     <p class="my-3 text-muted">&copy; 2022 - {{ env('APP_NAME') }}</p>
 </footer>
 <script src="{{ mix('js/jquery.min.js') }}"></script>

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property float $value
  * @property int $id
+ * @property float $value
+ * @property int $client
+ * @property string $method
  * @property int $table_id
- * @property int $time
+ * @property string $time
  */
 class Payment extends Model
 {

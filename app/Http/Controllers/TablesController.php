@@ -51,7 +51,7 @@ class TablesController extends Controller
         $table->capacity = $request->input('capacity');
         $table->save();
 
-        return redirect()->back()->with('success', 'Capacidade alterada com sucesso!');
+        return redirect()->back()->with('success', 'Capacidade da mesa #'.$table->id.' alterada com sucesso!');
     }
 
     /**

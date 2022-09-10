@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
  * @property float $value
+ * @property int $table_id
  * @property array $products
+ * @property string $time
  */
 class Order extends Model
 {

@@ -49,9 +49,56 @@
             <span>Mesa #<span id="manage-table-id"></span></span>
             <button class="btn btn-close" id="manage-table-close"></button>
         </h2>
-        <div class="col-md-7 mx-auto p-3">
-            <div id="load" class="d-flex justify-content-center mb-3 d-none">
-                <div class="loader"></div>
+        <div class="col-md-7 mx-auto px-3 border-bottom">
+            <div id="load" class="placeholder-glow mb-3 d-none">
+                <ul class="list-group mb-3 placeholder-glow">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div class="col-6">
+                            <h6 class="my-1 d-flex">
+                                <span class="placeholder bg-primary me-1 col-2"></span>
+                                <span class="placeholder col-7"></span>
+                            </h6>
+                            <small class="placeholder col-4 text-muted"></small>
+                        </div>
+                        <div class="col-3">
+                            <span class="placeholder text-muted me-2 col-12"></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div class="col-6">
+                            <h6 class="my-1 d-flex">
+                                <span class="placeholder bg-primary me-1 col-2"></span>
+                                <span class="placeholder col-7"></span>
+                            </h6>
+                            <small class="placeholder col-4 text-muted"></small>
+                        </div>
+                        <div class="col-3">
+                            <span class="placeholder text-muted me-2 col-12"></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div class="col-6">
+                            <h6 class="my-1 d-flex">
+                                <span class="placeholder bg-primary me-1 col-2"></span>
+                                <span class="placeholder col-7"></span>
+                            </h6>
+                            <small class="placeholder col-4 text-muted"></small>
+                        </div>
+                        <div class="col-3">
+                            <span class="placeholder text-muted me-2 col-12"></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="placeholder col-2 text-muted"></span>
+                        <strong class="placeholder col-3"></strong>
+                    </li>
+                </ul>
+                <div class="d-flex flex-column justify-content-center col-10 col-md-5 mx-auto">
+                    <button class="btn btn-primary disabled placeholder mb-3">
+                    </button>
+                    <button class="btn btn-danger disabled placeholder">
+                    </button>
+                </div>
             </div>
             <div id="load-error" class="mb-3 d-none">
                 <div class="alert alert-danger w-100 text-center">Não foi possível carregar os detalhes, tente
@@ -68,17 +115,46 @@
                 </ul>
             </div>
         </div>
-        <div class="d-none" id="btn-manage">
-            <div class="d-flex flex-column justify-content-center pt-2 border-top col-md-7 mx-auto">
+        <div class="mt-3 d-none" id="btn-manage">
+            <div class="d-flex flex-column justify-content-center col-10 col-md-5 mx-auto">
                 <button class="btn btn-primary mb-3">
                     Adicionar produtos
                 </button>
-                <button class="btn btn-danger" id="btn-close-bill">
+                <button class="btn btn-danger" id="btn-close-bill" data-bs-toggle="modal" data-bs-target="#close-bill">
                     Fechar conta
                 </button>
                 <a class="btn btn-danger" data-href="{{ route('garcom.tables.busy', '') }}" id="btn-vacant-table">
                     Desocupar mesa
                 </a>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="close-bill">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Fechar conta da mesa #<span id="table-id"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="form-close-bill" novalidate>
+                    <div class="modal-body">
+                        <div class="col-9 mx-auto">
+                            <label for="quantity-people-table" class="form-label">Quantas pessoas vão pagar ?</label>
+                            <div class="input-group">
+                                <input type="number" min="1" required id="quantity-people-table" name="value"
+                                           class="form-control">
+                                <span class="input-group-text">pessoas</span>
+                                <div class="invalid-feedback text-center">
+                                    A quantidade de pessoas é obrigatória e não poder ser menor que 1!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
