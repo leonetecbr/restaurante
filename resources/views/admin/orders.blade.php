@@ -32,6 +32,13 @@
                     <td>{{ $order->time }}</td>
                 </tr>
             @endforeach
+            @if (empty($orders[0]))
+                <tr class="table-warning">
+                    <td colspan="6">
+                        Nenhum registro de pedido foi encontrado!
+                    </td>
+                </tr>
+            @endif
             </tbody>
         </table>
     </div>
@@ -45,8 +52,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="load" class="placeholder-glow mb-3 d-none">
-                        <ul class="list-group mb-3 placeholder-glow">
+                    <div id="load" class="placeholder-glow d-none">
+                        <ul class="list-group placeholder-glow">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div class="col-6">
                                     <h6 class="my-1 d-flex">
@@ -95,7 +102,7 @@
                         </div>
                     </div>
                     <div id="detail" class="d-none">
-                        <ul class="list-group mb-3">
+                        <ul class="list-group">
                             <div id="products"></div>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total</span>

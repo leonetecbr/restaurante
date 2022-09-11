@@ -13,9 +13,10 @@ class UserController extends Controller
 
     /**
      * Gera a página de login
+     *
      * @return View|RedirectResponse
      */
-    #[Route('/', name: 'login')]
+    #[Route('/login', name: 'login', methods: 'get')]
     public function get(): View|RedirectResponse
     {
         if (Auth::check()) {
@@ -27,10 +28,11 @@ class UserController extends Controller
 
     /**
      * Realiza a autenticação do usuário
+     *
      * @param Request $request
      * @return RedirectResponse
      */
-    #[Route('/login', name: 'auth')]
+    #[Route('/login', name: 'auth', methods: 'post')]
     public function post(Request $request): RedirectResponse
     {
         $dados = $request->validate([
@@ -49,9 +51,10 @@ class UserController extends Controller
 
     /**
      * Realiza o logout
+     *
      * @returns RedirectResponse
      */
-    #[Route('/logout', name: 'logout')]
+    #[Route('/logout', name: 'logout', methods: 'get')]
     public function logout(): RedirectResponse
     {
         Auth::logout();

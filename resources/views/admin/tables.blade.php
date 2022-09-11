@@ -69,7 +69,7 @@
         </table>
     </div>
     {{ $tables->links() }}
-    <div class="modal" tabindex="-1" id="edit-capacity">
+    <div class="modal fade" tabindex="-1" id="edit-capacity">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" id="delete-table">
+    <div class="modal fade" tabindex="-1" id="delete-table">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -116,7 +116,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" id="new-table">
+    <div class="modal fade" tabindex="-1" id="new-table">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,8 +156,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="load" class="placeholder-glow mb-3 d-none">
-                        <ul class="list-group mb-3 placeholder-glow">
+                    <div id="load" class="placeholder-glow d-none">
+                        <ul class="list-group placeholder-glow">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div class="col-6">
                                     <h6 class="my-1 d-flex">
@@ -206,7 +206,7 @@
                         </div>
                     </div>
                     <div id="detail" class="d-none">
-                        <ul class="list-group mb-3">
+                        <ul class="list-group">
                             <div id="products"></div>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total</span>

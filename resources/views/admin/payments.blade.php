@@ -39,6 +39,13 @@
                     <td>{{ $payment->getTime() }}</td>
                 </tr>
             @endforeach
+            @if (empty($payments[0]))
+                <tr class="table-warning">
+                    <td colspan="6">
+                        Nenhum registro de pagamento foi encontrado para o período selecionado!
+                    </td>
+                </tr>
+            @endif
             </tbody>
         </table>
     </div>
@@ -46,7 +53,7 @@
 @endsection
 @section('plus')
     <form class="ms-2 col-lg-2 col-sm-3 col-5" id="form-select">
-        <label for="period-payment" class="visually-hidden"></label>
+        <label for="period-payment" class="visually-hidden">Mostrar pagamentos de(dos)</label>
         <select class="form-select" id="period-payment" name="period-payment">
             <option value="" @selected(is_null(request('period-payment')))>
                 Todo período

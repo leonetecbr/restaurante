@@ -17,11 +17,19 @@ class Table extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'products' => 'array',
         'busy' => 'boolean',
     ];
 
+    /**
+     * Adiciona os valores que já devem estar no banco de dados
+     *
+     * @return void
+     */
     public static function initialize(): void
     {
         $time = date('Y-m-d H:i:s');
@@ -45,6 +53,11 @@ class Table extends Model
         ]);
     }
 
+    /**
+     * Retorna o estado da mesa de uma forma elegante :)
+     *
+     * @return string
+     */
     public function getBusyStatus(): string
     {
         return ($this->busy) ?

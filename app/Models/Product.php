@@ -18,6 +18,8 @@ class Product extends Model
     use HasFactory;
 
     /**
+     * Adiciona os valores que já devem estar no banco de dados
+     *
      * @return void
      */
     public static function initialize(): void
@@ -55,16 +57,40 @@ class Product extends Model
     }
 
     /**
-     * @return Attribute
+     * Retorna o nome do produto com a primeira letra minuscula caso não seja uma sigla
+     *
+     * @return string
      */
-    protected function name(): Attribute
+    public function getNameLower(): string
     {
-        return Attribute::make(
-            get: fn($value) =>  ucfirst($value),
-        );
+        if (strtoupper($this->name) == $this->name){
+            return $this->name;
+        } elseif (mb_strlen($this->name) <= 1){
+            return mb_strtolower($this->name);
+        }
+
+        return mb_strtolower(mb_substr($this->name, 0, 1)) . mb_substr($this->name, 1, mb_strlen($this->name));
     }
 
     /**
+     *  Retorna o nome do produto com a primeira letra maiúscula caso não seja uma sigla
+     *
+     * @return string
+     */
+    public function getNameUpper(): string
+    {
+        if (strtoupper($this->name) == $this->name){
+            return $this->name;
+        } elseif (mb_strlen($this->name) <= 1){
+            return mb_strtoupper($this->name);
+        }
+
+        return mb_strtoupper(mb_substr($this->name, 0, 1)) . mb_substr($this->name, 1, mb_strlen($this->name));
+    }
+
+    /**
+     * Converte o valor, de float para uma string no formato utilizado para Real brasileiro
+     *
      * @return string
      */
     public function getCurrentValue(): string

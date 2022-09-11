@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\Table;
 use Exception;
 use Illuminate\View\View;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends Controller
 {
     /**
+     * Gera a página inicial do administrador
+     *
      * @return View
      * @throws Exception
      */
+    #[Route('/admin', name: 'admin', methods: 'get')]
     public function admin(): View
     {
         $date_end = date('Y-m-d');
@@ -33,6 +38,8 @@ class DashboardController extends Controller
     }
 
     /**
+     * Conta os dados para alimentar o gráfico
+     *
      * @param array $data
      * @param string[] $dates
      * @return array
@@ -66,11 +73,25 @@ class DashboardController extends Controller
     }
 
     /**
+     * Gera a página inicial do garçom
+     *
      * @return View
      */
+    #[Route('/garcom', name: 'garcom', methods: 'get')]
     public function garcom(): View
     {
         $tables = Table::all();
-        return view('garcom.dashboard', ['tables' => $tables]);
+        $products = Product::all();
+        $quantityAdd = [];
+
+        for ($i = 0; $i < count($products); $i++){
+            $quantityAdd[$products[$i]->id] = 0;
+        }
+
+        return view('garcom.dashboard', [
+            'tables' => $tables,
+            'products' => $products,
+            'quantityAdd' => $quantityAdd
+        ]);
     }
 }

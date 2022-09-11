@@ -18,12 +18,21 @@ class Order extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = false;
+
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'products' => 'array'
     ];
 
     /**
+     * Converte o valor, de float para uma string no formato utilizado para Real brasileiro
+     *
      * @return string
      */
     public function getCurrentValue(): string
@@ -32,6 +41,8 @@ class Order extends Model
     }
 
     /**
+     * Converte a data para o formato brasileiro
+     *
      * @return Attribute
      */
     protected function time(): Attribute

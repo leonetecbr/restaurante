@@ -53,6 +53,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Adiciona os valores que já devem estar no banco de dados
+     *
+     * @return void
+     */
     public static function initialize(): void
     {
         $time = date('Y-m-d H:i:s');

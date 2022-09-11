@@ -25,7 +25,7 @@
             @foreach ($products as $product)
                 <tr id="product-{{ $product->id }}">
                     <td>{{ $product->id }}</td>
-                    <td id="name-{{ $product->id }}">{{ $product->name }}</td>
+                    <td id="name-{{ $product->id }}">{{ $product->getNameUpper() }}</td>
                     <td id="value-{{ $product->id }}">
                         {{ $product->getCurrentValue() }}
                     </td>
@@ -42,7 +42,7 @@
         </table>
     </div>
     {{ $products->links() }}
-    <div class="modal" tabindex="-1" id="edit-value">
+    <div class="modal fade" tabindex="-1" id="edit-value">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

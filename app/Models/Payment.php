@@ -20,9 +20,14 @@ class Payment extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
+     * Converte a data para o formato brasileiro
+     *
      * @return string
      * @throws Exception
      */
@@ -32,6 +37,8 @@ class Payment extends Model
     }
 
     /**
+     * Gera uma cor para a linha da tabela conforme a mesa pertencente
+     *
      * @return string
      */
     public function getColor(): string
@@ -46,6 +53,8 @@ class Payment extends Model
     }
 
     /**
+     * Converte o valor, de float para uma string no formato utilizado para Real brasileiro
+     *
      * @return string
      */
     public function getCurrentValue(): string
@@ -54,6 +63,8 @@ class Payment extends Model
     }
 
     /**
+     * Torna a primeira letra do método de pagamento maiúscula
+     *
      * @return Attribute
      */
     protected function method(): Attribute

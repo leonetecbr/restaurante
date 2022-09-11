@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(Controllers\UserController::class)->group(function () {
 
-    Route::get('/', 'get')->name('login');
+    Route::redirect('/', '/login');
+    Route::get('/login', 'get')->name('login');
     Route::post('/login', 'post')->name('auth');
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
 });
@@ -59,7 +60,12 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
             Route::get('/', [Controllers\DashboardController::class, 'garcom']);
 
-            Route::get('/tables/busy/{table:id}', [Controllers\TablesController::class, 'busy'])
-                ->name('.tables.busy')->whereNumber('table');
+            Route::controller(Controllers\TablesController::class)->prefix('tables')
+                    ->name('.tables')->group(function () {
+
+                    Route::get('/busy/{table:id}','busy')->name('.busy')->whereNumber('table');
+                    Route::post('/add/{table:id}','add')->name('.add')->whereNumber('table');
+                    Route::post('/pay/{table:id}','pay')->name('.pay')->whereNumber('table');
+            });
         });
 });

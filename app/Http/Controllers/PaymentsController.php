@@ -6,15 +6,19 @@ use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentsController extends Controller
 {
 
     /**
+     * Gera o histórico de pagamentos
+     *
      * @param Request $request
      * @return View
      * @throws Exception
      */
+    #[Route('/admin/payments', name: 'admin.payments', methods: 'get')]
     public function get(Request $request): View
     {
         if (!$request->filled('period-payment')) {
