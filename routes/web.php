@@ -31,8 +31,10 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
             ->name('.products')->group(function () {
 
                 Route::get('/', 'get');
+                Route::post('/new', 'new')->name('.new');
                 Route::post('/edit/{product:id}', 'edit')->name('.edit')->whereNumber('product');
-        });
+                Route::get('/delete/{product:id}', 'delete')->name('.delete')->whereNumber('product');
+            });
 
         Route::controller(Controllers\TablesController::class)->prefix('tables')
             ->name('.tables')->group(function () {
@@ -42,7 +44,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
                 Route::post('/edit/{table:id}', 'edit')->name('.edit')->whereNumber('table');
                 Route::get('/delete/{table:id}', 'delete')->name('.delete')->whereNumber('table');
                 Route::get('/delete/{table:id}/{product}', 'deleteProduct')->name('.delete.product')->whereNumber(['table', 'product']);
-        });
+            });
 
         Route::get('/orders', [Controllers\OrdersController::class, 'get'])->name('.orders');
 
@@ -52,7 +54,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/orders/{order:id}/products', [Controllers\OrdersController::class, 'api'])->name('orders.api')
         ->whereNumber('order');
 
-    Route::get('/tables/{table:id}/products', [Controllers\TablesController::class ,'api'])->name('tables.api')
+    Route::get('/tables/{table:id}/products', [Controllers\TablesController::class, 'api'])->name('tables.api')
         ->whereNumber('table');
 
     Route::name('garcom')->middleware('isGarcom')
@@ -61,11 +63,11 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
             Route::get('/', [Controllers\DashboardController::class, 'garcom']);
 
             Route::controller(Controllers\TablesController::class)->prefix('tables')
-                    ->name('.tables')->group(function () {
+                ->name('.tables')->group(function () {
 
-                    Route::get('/busy/{table:id}','busy')->name('.busy')->whereNumber('table');
-                    Route::post('/add/{table:id}','add')->name('.add')->whereNumber('table');
-                    Route::post('/pay/{table:id}','pay')->name('.pay')->whereNumber('table');
-            });
+                    Route::get('/busy/{table:id}', 'busy')->name('.busy')->whereNumber('table');
+                    Route::post('/add/{table:id}', 'add')->name('.add')->whereNumber('table');
+                    Route::post('/pay/{table:id}', 'pay')->name('.pay')->whereNumber('table');
+                });
         });
 });

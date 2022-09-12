@@ -83,7 +83,7 @@
                             <label for="capacity-table" class="form-label">Capacidade</label>
                             <div class="input-group">
                                 <input type="number" min="1" required id="capacity-table" name="capacity"
-                                           class="form-control">
+                                       class="form-control" placeholder="4">
                                 <span class="input-group-text">pessoas</span>
                                 <div class="invalid-feedback text-center">
                                     A capacidade é obrigatória e não poder ser menor que 1!
@@ -103,11 +103,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tem certeza que quer deletar a mesa #<span id="delete-table-id"></span>?</h5>
+                    <h5 class="modal-title">Tem certeza que quer deletar a mesa #<span id="delete-table-id"></span>?
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body text-center">
-                    Todos as informações referentes a essa mesa serão apagadas!
+                    Todas as informações referentes a essa mesa serão apagadas!
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -131,7 +132,7 @@
                             <label for="capacity-edit" class="form-label">Capacidade</label>
                             <div class="input-group">
                                 <input type="number" min="1" required id="capacity-edit" name="capacity" value="4"
-                                       class="form-control">
+                                       class="form-control" placeholder="4">
                                 <span class="input-group-text">pessoas</span>
                                 <div class="invalid-feedback text-center">
                                     A capacidade é obrigatória e não poder ser menor que 1!
@@ -147,7 +148,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="detail-table" tabindex="-1">
+    <div class="modal fade" tabindex="-1" id="detail-table">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

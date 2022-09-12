@@ -2,8 +2,9 @@
 @section('title', 'Login')
 @section('content')
     <main class="mt-auto">
-        <form class="text-center needs-validation d-flex flex-column justify-content-center align-items-center form-signin m-auto p-3"
-              method="post" action="{{ route('auth') }}" novalidate>
+        <form
+            class="text-center needs-validation d-flex flex-column justify-content-center align-items-center form-signin m-auto p-3"
+            method="post" action="{{ route('auth') }}" novalidate>
             <img class="mb-4" src="{{ url('img/icon.png') }}" alt="Parto com garfo e faca" width="90" height="90">
             <h1 class="h3 mb-3 fw-normal">Acessar o sistema</h1>
             @if ($errors->any())

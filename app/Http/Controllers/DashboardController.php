@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $products = Product::all();
         $quantityAdd = [];
 
-        for ($i = 0; $i < count($products); $i++){
+        for ($i = 0; $i < count($products); $i++) {
             $quantityAdd[$products[$i]->id] = 0;
         }
 

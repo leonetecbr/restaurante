@@ -63,9 +63,9 @@ class Product extends Model
      */
     public function getNameLower(): string
     {
-        if (strtoupper($this->name) == $this->name){
+        if (strtoupper($this->name) == $this->name) {
             return $this->name;
-        } elseif (mb_strlen($this->name) <= 1){
+        } elseif (mb_strlen($this->name) <= 1) {
             return mb_strtolower($this->name);
         }
 
@@ -79,9 +79,9 @@ class Product extends Model
      */
     public function getNameUpper(): string
     {
-        if (strtoupper($this->name) == $this->name){
+        if (strtoupper($this->name) == $this->name) {
             return $this->name;
-        } elseif (mb_strlen($this->name) <= 1){
+        } elseif (mb_strlen($this->name) <= 1) {
             return mb_strtoupper($this->name);
         }
 

@@ -1,6 +1,6 @@
 # Restaurante
 
-## Instalação 
+## Instalação
 
 ### Requisitos
 

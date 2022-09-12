@@ -44,7 +44,7 @@ class TablesController extends Controller
         $table->capacity = $request->input('capacity');
         $table->save();
 
-        return redirect()->back()->with('success', 'Mesa #'.$table->id.' criada com sucesso!');
+        return redirect()->back()->with('success', 'Mesa #' . $table->id . ' criada com sucesso!');
     }
 
     /**
@@ -64,7 +64,7 @@ class TablesController extends Controller
         $table->capacity = $request->input('capacity');
         $table->save();
 
-        return redirect()->back()->with('success', 'Capacidade da mesa #'.$table->id.' alterada com sucesso!');
+        return redirect()->back()->with('success', 'Capacidade da mesa #' . $table->id . ' alterada com sucesso!');
     }
 
     /**
@@ -78,7 +78,7 @@ class TablesController extends Controller
     {
         $table->delete();
 
-        return redirect()->back()->with('success', 'Mesa #'.$table->id.' deletada com sucesso!');
+        return redirect()->back()->with('success', 'Mesa #' . $table->id . ' deletada com sucesso!');
     }
 
     /**
@@ -118,12 +118,17 @@ class TablesController extends Controller
     #[Route('/garcom/tables/busy/{table:id}', name: 'garcom.tables.busy', methods: 'get')]
     public function busy(Table $table): RedirectResponse
     {
+        if ($table->busy && count($table->products) > 0){
+            return redirect()->back()
+                            ->withErrors('Mesa com produtos não pode ser desocupada sem pagamento!');
+        }
+
         $table->busy = !$table->busy;
         $table->save();
 
         $status = ($table->busy) ? 'ocupada' : 'desocupada';
 
-        return redirect()->back()->with('success', 'Mesa #'.$table->id.' '.$status.' com sucesso!');
+        return redirect()->back()->with('success', 'Mesa #' . $table->id . ' ' . $status . ' com sucesso!');
     }
 
     /**
@@ -141,8 +146,8 @@ class TablesController extends Controller
         $prices = Product::all()->toArray();
         $price = 0;
 
-        foreach ($products as $key => $value){
-            for ($i = 0; $i < $value; $i++){
+        foreach ($products as $key => $value) {
+            for ($i = 0; $i < $value; $i++) {
                 $add[] = $key;
             }
 
@@ -182,9 +187,9 @@ class TablesController extends Controller
         $prices = Product::all();
         $price = 0;
 
-        foreach ($products as $product){
-            for ($i = 0; $i < count($prices); $i++){
-                if ($prices[$i]->id === $product){
+        foreach ($products as $product) {
+            for ($i = 0; $i < count($prices); $i++) {
+                if ($prices[$i]->id === $product) {
                     $price += $prices[$i]->value;
                     break;
                 }
@@ -198,7 +203,7 @@ class TablesController extends Controller
             $pay = new Payment;
             $pay->value = $value;
             $pay->client = $i;
-            $pay->method = $methods[$i-1];
+            $pay->method = $methods[$i - 1];
             $pay->table_id = $table->id;
             $pay->save();
         }

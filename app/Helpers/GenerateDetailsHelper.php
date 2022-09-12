@@ -9,13 +9,28 @@ use App\Models\Table;
 class GenerateDetailsHelper
 {
     /**
+     * Gera os detalhes e transforma em um JSON
+     *
+     * @param Table|Order $item
+     * @return array
+     */
+    public static function api(Table|Order $item): array
+    {
+        $data = Product::all();
+        $products = $item->products;
+
+        return self::getDetails($products, $data);
+    }
+
+    /**
      * Obtém os detalhes de uma mesa ou de um pedido
      *
      * @param $products
      * @param $data
      * @return array
      */
-    public static function getDetails($products, $data): array{
+    public static function getDetails($products, $data): array
+    {
         $result = [];
         $sum = 0;
 
@@ -23,7 +38,13 @@ class GenerateDetailsHelper
         $products = array_unique($products);
 
         foreach ($products as $product) {
-            $match = $data[$product - 1];
+            foreach ($data as $info){
+                if ($info->id == $product){
+                    $match = $info;
+                    break;
+                }
+            }
+
             $value = $match->value * $quantity[$product];
             $result[] = [
                 'id' => $product,
@@ -39,19 +60,5 @@ class GenerateDetailsHelper
         $result['total'] = 'R$ ' . number_format($sum, 2, ',', '.');
 
         return $result;
-    }
-
-    /**
-     * Gera os detalhes e transforma em um JSON
-     *
-     * @param Table|Order $item
-     * @return array
-     */
-    public static function api(Table|Order $item): array
-    {
-        $data = Product::all();
-        $products = $item->products;
-
-        return self::getDetails($products, $data);
     }
 }

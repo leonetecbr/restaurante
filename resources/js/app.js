@@ -49,19 +49,15 @@ $('#edit-capacity').on('show.bs.modal', function (e) {
     formEdit.attr('action', url)
 })
 
-$('#delete-table').on('show.bs.modal', function (e) {
-    const data = e.relatedTarget, tableId =  data.getAttribute('data-table-id'),
-        url =  data.getAttribute('data-href')
+$('#delete-table').on('show.bs.modal', confirmDelete)
 
-    $('#delete-table-id').html(tableId)
-    $('#btn-confirm-delete').attr('href', url)
-})
+$('#delete-product').on('show.bs.modal', confirmDelete)
 
-$('#manage-table-close').on('click',  () => divManageTable.addClass('d-none'))
+$('#manage-table-close').on('click', () => divManageTable.addClass('d-none'))
 
 $('#period-payment').on('change', () => $('#form-select').trigger('submit'))
 
-$('#detail-table').on('show.bs.modal',  (e) => {
+$('#detail-table').on('show.bs.modal', (e) => {
     getDetails('table', e.relatedTarget.getAttribute('data-table-id'))
 })
 
@@ -89,7 +85,7 @@ $('.btn-manage-table').on('click', function () {
             btnManage.removeClass('d-none')
 
             const productsHTML = generateDetailsHTML(data, false, false)
-            const btnVacantTable =  $('#btn-vacant-table')
+            const btnVacantTable = $('#btn-vacant-table')
 
             manageTableId = tableId
 
@@ -97,8 +93,7 @@ $('.btn-manage-table').on('click', function () {
                 $('#btn-close-bill').addClass('d-none')
                 btnVacantTable.removeClass('d-none')
                 btnVacantTable.attr('href', btnVacantTable.data('href') + '/' + tableId)
-            }
-            else {
+            } else {
                 btnVacantTable.addClass('d-none')
                 $('#btn-close-bill').removeClass('d-none')
                 valueTotal = data.sum
@@ -115,7 +110,7 @@ $('.btn-manage-table').on('click', function () {
         })
 })
 
-$('#add-products').on('show.bs.modal',  () => {
+$('#add-products').on('show.bs.modal', () => {
     const productsJSON = $('#products-add-json'), formAddProducts = $('#form-add-products')
     $('#add-table-id').html(manageTableId)
     $('#form-product').removeClass('was-validated').trigger('reset')
@@ -126,14 +121,14 @@ $('#add-products').on('show.bs.modal',  () => {
     $('#products-add').html(generateAddHTML(null))
 })
 
-$('#form-product').on('submit', function (e){
+$('#form-product').on('submit', function (e) {
+    e.preventDefault()
     if (!this.checkValidity()) {
-        e.preventDefault()
         e.stopPropagation()
         $(this).addClass('was-validated')
     } else {
-        e.preventDefault()
         $(this).addClass('was-validated')
+
         const option = $('#add-product-id :selected'), productsJSON = $('#products-add-json'), productId = option.val(),
             name = option.html(), valueUnitary = parseFloat(option.data('value')), productsAdd = $('#products-add')
         let products = JSON.parse(productsJSON.val()), quantity = parseInt($('#add-product-quantity').val())
@@ -148,7 +143,7 @@ $('#form-product').on('submit', function (e){
         productsJSON.val(JSON.stringify(products))
 
         if (products[productId] === quantity) productsAdd.append(generateAddHTML(name, valueUnitary, quantity, productId))
-        else{
+        else {
             sum += quantity * valueUnitary
 
             $('#products-add-' + productId + '-quantity').html(products[productId])
@@ -163,18 +158,17 @@ $('#form-product').on('submit', function (e){
     }
 })
 
-closeBill.on('show.bs.modal',  () => {
+closeBill.on('show.bs.modal', () => {
     $('#form-close-bill').removeClass('was-validated').trigger('reset')
     $('#close-table-id').html(manageTableId)
 })
 
 $('#form-close-bill').on('submit', function (e) {
+    e.preventDefault()
     if (!this.checkValidity()) {
-        e.preventDefault()
         e.stopPropagation()
         $(this).addClass('was-validated')
-    } else{
-        e.preventDefault()
+    } else {
         $(this).addClass('was-validated')
 
         peoplesPay = parseInt($('#quantity-people-table').val())
@@ -187,7 +181,7 @@ $('#form-close-bill').on('submit', function (e) {
 
 payBill.on('show.bs.modal', () => {
     const formPayBill = $('#form-pay-bill')
-    let value = parseFloat((valueTotal/peoplesPay).toFixed(2))
+    let value = parseFloat((valueTotal / peoplesPay).toFixed(2))
     let HTML = generatePayHTML()
     $('#method-pay-bill').html(HTML)
     $('#value-pay').html(currency(value))
@@ -203,14 +197,22 @@ $(window).on('scroll', () => {
     }
 })
 
-$(window).on('hashchange',  () => hashChange())
+$(window).on('hashchange', () => hashChange())
 
-function handleClickDelete(){
+function confirmDelete(e) {
+    const data = e.relatedTarget, tableId = data.getAttribute('data-id'),
+        url = data.getAttribute('data-href')
+
+    $('#delete-id').html(tableId)
+    $('#btn-confirm-delete').attr('href', url)
+}
+
+function handleClickDelete() {
     const productsJSON = $('#products-add-json'), id = $(this).data('product-id')
     let products = JSON.parse(productsJSON.val())
 
     products[id] = 0
-    sum -= parseFloat($('#products-add-'+ id +'-value').data('value'))
+    sum -= parseFloat($('#products-add-' + id + '-value').data('value'))
 
     productsJSON.val(JSON.stringify(products))
     $('#total-add-products').html(currency(sum))
@@ -314,7 +316,7 @@ function generateAddHTML(name, valueUnitary = null, quantity = null, id = null) 
     return HTML
 }
 
-function generatePayHTML(){
+function generatePayHTML() {
     let HTML = ''
     for (let i = 1; i <= peoplesPay; i++) {
         HTML += `<div class="mt-3">
@@ -331,16 +333,16 @@ function generatePayHTML(){
     return HTML
 }
 
-function currency(num){
+function currency(num) {
     return num.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
 }
 
-function isZeroValues(obj){
+function isZeroValues(obj) {
     const keys = Object.keys(obj)
     let result = true
 
-    for (let i = 0; i < keys.length; i++){
-        if (obj[keys[i]] !== 0){
+    for (let i = 0; i < keys.length; i++) {
+        if (obj[keys[i]] !== 0) {
             return false
         }
     }
