@@ -18,20 +18,6 @@
 
 .form-signin {
     width: 330px;
-    padding: 15px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.form-signin .checkbox {
-    font-weight: 400;
-}
-
-.form-signin .form-floating:focus-within {
-    z-index: 2;
 }
 
 .form-signin input[type="email"] {
@@ -41,7 +27,6 @@
 }
 
 .form-signin input[type="password"], .form-signin input[type="text"] {
-    margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }

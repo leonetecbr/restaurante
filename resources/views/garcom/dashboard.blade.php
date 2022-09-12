@@ -44,6 +44,7 @@
         </div>
         @endforeach
     </div>
+    {{ $tables->links() }}
     <div class="my-3 p-3 bg-body rounded shadow-sm d-none container" id="manage-table">
         <h2 class="h3 pb-2 border-bottom mb-3 d-flex justify-content-between">
             <span>Mesa #<span id="manage-table-id"></span></span>

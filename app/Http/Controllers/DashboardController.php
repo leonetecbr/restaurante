@@ -80,7 +80,7 @@ class DashboardController extends Controller
     #[Route('/garcom', name: 'garcom', methods: 'get')]
     public function garcom(): View
     {
-        $tables = Table::all();
+        $tables = Table::paginate(16);
         $products = Product::all();
         $quantityAdd = [];
 
