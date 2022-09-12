@@ -150,7 +150,7 @@ $('#form-product').on('submit', function (e) {
             $('#products-add-' + productId + '-value').html(currency(products[productId] * valueUnitary))
         }
 
-        $('.products-add-delete').on('click', handleClickDelete)
+        $('.products-add-delete').on('click', deleteAddProduct)
 
         $('#total-add-products').html(currency(sum))
 
@@ -207,7 +207,7 @@ function confirmDelete(e) {
     $('#btn-confirm-delete').attr('href', url)
 }
 
-function handleClickDelete() {
+function deleteAddProduct() {
     const productsJSON = $('#products-add-json'), id = $(this).data('product-id')
     let products = JSON.parse(productsJSON.val())
 

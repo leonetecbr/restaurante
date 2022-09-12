@@ -147,10 +147,12 @@ class TablesController extends Controller
         $price = 0;
 
         foreach ($products as $key => $value) {
+            // Transforma o array de [id => quantity] em [id, id, id]
             for ($i = 0; $i < $value; $i++) {
                 $add[] = $key;
             }
 
+            // Calcula o valor dos produtos
             if ($value !== 0) {
                 for ($i = 0; $i < count($prices); $i++) {
                     if ($prices[$i]['id'] === $key) {
@@ -187,6 +189,7 @@ class TablesController extends Controller
         $prices = Product::all();
         $price = 0;
 
+        // Calcula o valor dos produtos
         foreach ($products as $product) {
             for ($i = 0; $i < count($prices); $i++) {
                 if ($prices[$i]->id === $product) {

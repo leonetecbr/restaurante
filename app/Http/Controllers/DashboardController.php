@@ -20,20 +20,19 @@ class DashboardController extends Controller
     #[Route('/admin', name: 'admin', methods: 'get')]
     public function admin(): View
     {
+        $dates = [];
         $date_end = date('Y-m-d');
         $date_start = date('Y-m-d', strtotime('-6 days'));
+
         $query = Payment::whereDate('time', '>=', $date_start);
         $query = $query->whereDate('time', '<=', $date_end)->get()->toArray();
-        $dates = [
-            date('d/m', strtotime('-6 days')),
-            date('d/m', strtotime('-5 days')),
-            date('d/m', strtotime('-4 days')),
-            date('d/m', strtotime('-3 days')),
-            date('d/m', strtotime('-2 days')),
-            date('d/m', strtotime('-1 days')),
-            date('d/m'),
-        ];
+
+        for ($i = 6; $i >= 0; $i--){
+            $dates[] = date('d/m', strtotime('-'.$i.' days'));
+        }
+
         $result = $this->countData($query, $dates);
+
         return view('admin.dashboard', $result);
     }
 
@@ -47,10 +46,18 @@ class DashboardController extends Controller
      */
     private function countData(array $data, array $dates): array
     {
-        $transactions = [0, 0, 0, 0, 0, 0, 0];
-        $sales = [0, 0, 0, 0, 0, 0, 0];
-        $values = [0, 0, 0, 0, 0, 0, 0];
+        $transactions = [];
+        $sales = [];
+        $values = [];
 
+        // Preenche as variáveis para cada dia com valor zero
+        for ($i = 0; $i < count($dates); $i++){
+            $transactions[] = 0;
+            $sales[] = 0;
+            $values[] = 0;
+        }
+
+        // Soma informações para o gráfico agrupando por data
         foreach ($data as $pay) {
             $time = date('d/m', strtotime($pay['time']));
             foreach ($dates as $i => $date) {
@@ -84,6 +91,7 @@ class DashboardController extends Controller
         $products = Product::all();
         $quantityAdd = [];
 
+        // Gera um array de produtos com quantidades vazias para ser usado pelo Javascript
         for ($i = 0; $i < count($products); $i++) {
             $quantityAdd[$products[$i]->id] = 0;
         }

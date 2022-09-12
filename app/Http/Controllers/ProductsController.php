@@ -40,6 +40,7 @@ class ProductsController extends Controller
 
         $name = $request->input('name');
 
+        // Caso nome do produto não seja uma sigla, coloca a primeira letra minúscula
         if (strtoupper($name) !== $name) {
             $name = (mb_strlen($name) <= 1) ?
                         mb_strtolower($name) :
@@ -86,6 +87,7 @@ class ProductsController extends Controller
     {
         $product->delete();
 
+        // Exclui o produto de todas as mesas
         $tables = Table::all();
         foreach ($tables as $table){
             if (in_array($product->id, $table->products)){
@@ -94,6 +96,7 @@ class ProductsController extends Controller
             }
         }
 
+        // Exclui o produto de todos os pedidos
         $orders = Order::all();
         foreach ($orders as $order){
             if (in_array($product->id, $order->products)){
