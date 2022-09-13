@@ -87,24 +87,6 @@ class ProductsController extends Controller
     {
         $product->delete();
 
-        // Exclui o produto de todas as mesas
-        $tables = Table::all();
-        foreach ($tables as $table){
-            if (in_array($product->id, $table->products)){
-                $table->products = array_diff($table->products, [$product->id]);
-                $table->save();
-            }
-        }
-
-        // Exclui o produto de todos os pedidos
-        $orders = Order::all();
-        foreach ($orders as $order){
-            if (in_array($product->id, $order->products)){
-                $order->products = array_diff($order->products, [$product->id]);
-                $order->save();
-            }
-        }
-
         return redirect()->back()->with('success', $product->getNameUpper() . ' deletado com sucesso!');
     }
 }

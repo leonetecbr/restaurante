@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->id();
             $table->integer('capacity')->default(4);
             $table->boolean('busy')->default(false);
-            $table->json('products')->default('[]');
             $table->timestamps();
         });
 

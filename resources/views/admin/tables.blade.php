@@ -39,7 +39,7 @@
                     </td>
                     <td>
                         @if ($table->busy)
-                            {{ count($table->products) }} -
+                            {{ $table->products_sum_quantity ?? 0 }} -
                             <a href="#detail-table" class="text-primary text-decoration-none" data-bs-toggle="modal"
                                data-table-id="{{ $table->id }}">
                                 Detalhar
@@ -108,7 +108,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body text-center">
-                    Todas as informações referentes a essa mesa serão apagadas!
+                    Todas as informações referentes a essa mesa serão apagadas, incluindo os pedidos e pagamentos feitos
+                    nela.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>

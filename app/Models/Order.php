@@ -6,13 +6,14 @@ use DateTime;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property float $value
  * @property int $table_id
- * @property array $products
  * @property string $time
+ * @property ProductOrder[] $products
  */
 class Order extends Model
 {
@@ -22,13 +23,6 @@ class Order extends Model
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * @var string[]
-     */
-    protected $casts = [
-        'products' => 'array'
-    ];
 
     /**
      * Converte o valor, de float para uma string no formato utilizado para Real brasileiro
@@ -50,5 +44,13 @@ class Order extends Model
         return Attribute::make(
             get: fn($value) => (new DateTime($value))->format('d/m/Y H:i:s'),
         );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(ProductOrder::class);
     }
 }

@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ $order->id }}</td>
                     <td>
-                        {{ count($order->products) }} -
+                        {{ $order->products_sum_quantity }} -
                         <a href="#detail-order" class="text-primary text-decoration-none" data-bs-toggle="modal"
                            data-order-id="{{ $order->id }}">
                             Detalhar

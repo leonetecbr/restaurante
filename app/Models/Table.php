@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property int $capacity
  * @property bool $busy
- * @property array $products
  * @property string $created_at
  * @property string $updated_at
+ * @property int $product_count
+ * @property ProductTable[] $products
  */
 class Table extends Model
 {
@@ -21,7 +23,6 @@ class Table extends Model
      * @var string[]
      */
     protected $casts = [
-        'products' => 'array',
         'busy' => 'boolean',
     ];
 
@@ -51,6 +52,14 @@ class Table extends Model
                 'updated_at' => $time,
             ],
         ]);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(ProductTable::class);
     }
 
     /**

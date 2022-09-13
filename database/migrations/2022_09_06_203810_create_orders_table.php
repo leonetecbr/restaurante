@@ -16,8 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->float('value');
             $table->unsignedBigInteger('table_id');
-            $table->json('products');
-            $table->foreign('table_id')->references('id')->on('tables');
+            $table->foreign('table_id')->references('id')->on('tables')->cascadeOnDelete();
             $table->dateTime('time')->useCurrent();
         });
     }

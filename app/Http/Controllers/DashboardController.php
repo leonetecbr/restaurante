@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Table;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,18 +21,7 @@ class DashboardController extends Controller
     #[Route('/admin', name: 'admin', methods: 'get')]
     public function admin(): View
     {
-        $dates = [];
-        $date_end = date('Y-m-d');
-        $date_start = date('Y-m-d', strtotime('-6 days'));
-
-        $query = Payment::whereDate('time', '>=', $date_start);
-        $query = $query->whereDate('time', '<=', $date_end)->get()->toArray();
-
-        for ($i = 6; $i >= 0; $i--){
-            $dates[] = date('d/m', strtotime('-'.$i.' days'));
-        }
-
-        $result = $this->countData($query, $dates);
+        $result = $this->countData();
 
         return view('admin.dashboard', $result);
     }
@@ -39,36 +29,23 @@ class DashboardController extends Controller
     /**
      * Conta os dados para alimentar o gráfico
      *
-     * @param array $data
-     * @param string[] $dates
      * @return array
      * @throws Exception
      */
-    private function countData(array $data, array $dates): array
+    private function countData(): array
     {
         $transactions = [];
         $sales = [];
         $values = [];
+        $dates = [];
 
-        // Preenche as variáveis para cada dia com valor zero
-        for ($i = 0; $i < count($dates); $i++){
-            $transactions[] = 0;
-            $sales[] = 0;
-            $values[] = 0;
-        }
+        for ($i = 6; $i >= 0; $i--){
+            $data = Payment::whereDate('time', '=', date('Y-m-d', strtotime('-'. $i .' days')));
 
-        // Soma informações para o gráfico agrupando por data
-        foreach ($data as $pay) {
-            $time = date('d/m', strtotime($pay['time']));
-            foreach ($dates as $i => $date) {
-                if ($time === $date) {
-                    $transactions[$i] += 1;
-                    if ($pay['client'] === 1) {
-                        $sales[$i] += 1;
-                    }
-                    $values[$i] += $pay['value'];
-                }
-            }
+            $dates[] = date('d/m', strtotime('-'.$i.' days'));
+            $transactions[] = $data->get()->count();
+            $sales[] = $data->where('client', 1)->get()->count();
+            $values[] = $data->get()->sum('value');
         }
 
         return [

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,14 +13,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('products_table', function (Blueprint $table) {
             $table->id();
-            $table->float('value');
             $table->unsignedBigInteger('table_id');
-            $table->integer('client');
-            $table->enum('method', ['dinheiro', 'débito', 'crédito', 'pix']);
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
             $table->foreign('table_id')->references('id')->on('tables')->cascadeOnDelete();
-            $table->dateTime('time')->useCurrent();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('products_table');
     }
 };

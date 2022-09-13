@@ -6,6 +6,8 @@ use App\Helpers\GenerateDetailsHelper;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\ProductOrder;
+use App\Models\ProductTable;
 use App\Models\Table;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +25,7 @@ class TablesController extends Controller
     #[Route('/admin/tables', name: 'admin.tables', methods: 'get')]
     public function get(): View
     {
-        $tables = Table::paginate();
+        $tables = Table::withSum('products', 'quantity')->paginate();
         return view('admin.tables', ['tables' => $tables]);
     }
 
@@ -90,7 +92,7 @@ class TablesController extends Controller
     #[Route('/admin/tables/{table:id}/products', name: 'admin.tables.api', methods: 'get')]
     public function api(Table $table): array
     {
-        return GenerateDetailsHelper::api($table);
+        return GenerateDetailsHelper::get($table);
     }
 
     /**
@@ -103,8 +105,7 @@ class TablesController extends Controller
     #[Route('/admin/tables/delete/{table:id}/{product}', name: 'admin.tables.delete.product', methods: 'get')]
     public function deleteProduct(Table $table, int $product): RedirectResponse
     {
-        $table->products = array_diff($table->products, [$product]);
-        $table->save();
+        ProductTable::where('table_id', $table->id)->where('product_id', $product)->delete();
 
         return redirect()->back()->with('success', 'Produto deletado com sucesso!');
     }
@@ -118,7 +119,9 @@ class TablesController extends Controller
     #[Route('/garcom/tables/busy/{table:id}', name: 'garcom.tables.busy', methods: 'get')]
     public function busy(Table $table): RedirectResponse
     {
-        if ($table->busy && count($table->products) > 0){
+        $table->loadCount('products');
+
+        if ($table->busy && $table->product_count > 0){
             return redirect()->back()
                             ->withErrors('Mesa com produtos não pode ser desocupada sem pagamento!');
         }
@@ -142,35 +145,50 @@ class TablesController extends Controller
     public function add(Table $table, Request $request): RedirectResponse
     {
         $products = json_decode($request->input('products-add-json'), true);
-        $add = [];
-        $prices = Product::all()->toArray();
-        $price = 0;
+        $prices = Product::all();
+        $value = 0;
 
-        foreach ($products as $key => $value) {
-            // Transforma o array de [id => quantity] em [id, id, id]
-            for ($i = 0; $i < $value; $i++) {
-                $add[] = $key;
-            }
-
+        foreach ($products as $key => $quantity) {
             // Calcula o valor dos produtos
-            if ($value !== 0) {
-                for ($i = 0; $i < count($prices); $i++) {
-                    if ($prices[$i]['id'] === $key) {
-                        $price += $prices[$i]['value'] * $value;
-                        break;
-                    }
+            foreach ($prices as $price) {
+                if ($price->id === $key) {
+                    $value += $price->value * $quantity;
+                    break;
                 }
             }
         }
 
-        $table->products = array_merge($table->products, $add);
-        $table->save();
-
         $order = new Order;
-        $order->value = $price;
+        $order->value = $value;
         $order->table_id = $table->id;
-        $order->products = $add;
         $order->save();
+
+        foreach (array_keys($products) as $product) {
+            $quantity = $products[$product];
+
+            if ($quantity === 0) {
+                continue;
+            }
+
+            $productOrder = new ProductOrder;
+            $productOrder->product_id = $product;
+            $productOrder->order_id = $order->id;
+            $productOrder->quantity = $quantity;
+            $productOrder->save();
+
+            $productTable = ProductTable::firstOrNew([
+                'table_id' => $table->id,
+                'product_id' => $product,
+            ]);
+
+            if (empty($productTable->quantity)) {
+                $productTable->quantity = $quantity;
+            } else {
+                $productTable->increment('quantity', $quantity);
+            }
+
+            $productTable->save();
+        }
 
         return redirect()->back()->with('success', 'Produto(s) adicionado(s) com sucesso!');
     }
@@ -186,17 +204,11 @@ class TablesController extends Controller
     public function pay(Table $table, Request $request): View
     {
         $products = $table->products;
-        $prices = Product::all();
         $price = 0;
 
-        // Calcula o valor dos produtos
+        // Calcula o valor dos produto
         foreach ($products as $product) {
-            for ($i = 0; $i < count($prices); $i++) {
-                if ($prices[$i]->id === $product) {
-                    $price += $prices[$i]->value;
-                    break;
-                }
-            }
+            $price += $product->product->value * $product->quantity;
         }
 
         $methods = $request->input('method');
@@ -212,7 +224,7 @@ class TablesController extends Controller
         }
 
         $table->busy = false;
-        $table->products = [];
+        $table->products()->delete();
         $table->save();
 
         return view('garcom.resume', [
@@ -220,7 +232,7 @@ class TablesController extends Controller
             'price' => 'R$ ' . number_format($price, 2, ',', '.'),
             'value' => 'R$ ' . number_format($value, 2, ',', '.'),
             'methods' => $methods,
-            'details' => GenerateDetailsHelper::getDetails($products, $prices),
+            'details' => GenerateDetailsHelper::getDetails($products),
         ]);
     }
 }
