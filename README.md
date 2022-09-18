@@ -1,5 +1,19 @@
 # Restaurante
 
+## Visualização
+
+### Versão Garçom
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/leonetecbr/restaurante/main/result/versao-garcom.gif" alt="Versão garçom do sistema"/>
+</p>
+
+### Versão Admin
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/leonetecbr/restaurante/main/result/versao-admin.gif" alt="Versão admin do sistema"/>
+</p>
+
 ## Instalação
 
 ### Requisitos

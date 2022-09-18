@@ -1,7 +1,7 @@
 const load = $('#load'), loadError = $('#load-error'), divManageTable = $('#manage-table'), formEdit = $('#form-edit')
 const closeBill = $('#close-bill'), payBill = $('#pay-bill')
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-let lastId, manageTableId, valueTotal, peoplesPay, sum = 0
+let lastId, manageTableId, valueTotal, peoplesPay, capacity, sum = 0
 
 tooltipTriggerList.map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl))
 
@@ -78,8 +78,8 @@ $('.btn-manage-table').on('click', function () {
     $('#manage-table-id').html(tableId)
 
     divManageTable.removeClass('d-none')
-    axios.get(apiDetails.replace('0', tableId))
-        .then(function ({data}) {
+    $.get(apiDetails.replace('0', tableId))
+        .done((data) => {
             load.addClass('d-none')
             divManage.removeClass('d-none')
             btnManage.removeClass('d-none')
@@ -88,6 +88,7 @@ $('.btn-manage-table').on('click', function () {
             const btnVacantTable = $('#btn-vacant-table')
 
             manageTableId = tableId
+            $('#quantity-people-table').attr('max', $(this).data('capacity'))
 
             if (typeof data[0] === 'undefined') {
                 $('#btn-close-bill').addClass('d-none')
@@ -102,12 +103,12 @@ $('.btn-manage-table').on('click', function () {
             $('#products').html(productsHTML)
             $('#total-products').html(data.total)
         })
-        .catch(function (error) {
+        .fail((error) => {
             load.addClass('d-none')
             divManage.addClass('d-none')
             loadError.removeClass('d-none')
             console.log(error)
-        })
+        });
 })
 
 $('#add-products').on('show.bs.modal', () => {
@@ -233,20 +234,20 @@ function getDetails(typeData, itemId) {
 
     $('#detail-' + typeData + '-id').html(itemId)
 
-    axios.get(apiDetails.replace('0', itemId))
-        .then(function ({data}) {
+    $.get(apiDetails.replace('0', itemId))
+        .done((data) => {
             load.addClass('d-none')
             divDetail.removeClass('d-none')
             let productsHTML = (typeData === 'table') ? generateDetailsHTML(data, itemId) : generateDetailsHTML(data)
             $('#products').html(productsHTML)
             $('#total-products').html(data.total)
         })
-        .catch(function (error) {
+        .fail((error) => {
             load.addClass('d-none')
             divDetail.addClass('d-none')
             loadError.removeClass('d-none')
             console.log(error)
-        })
+        });
 }
 
 

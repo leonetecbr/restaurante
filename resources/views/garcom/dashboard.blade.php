@@ -32,7 +32,8 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         @if ($table->busy)
-                            <button class="btn btn-primary btn-manage-table" data-table-id="{{ $table->id }}">
+                            <button class="btn btn-primary btn-manage-table" data-table-id="{{ $table->id }}"
+                                    data-capacity="{{ $table->capacity }}">
                                 Ajustar mesa
                             </button>
                         @else
@@ -208,10 +209,11 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="number" min="1" required id="quantity-people-table" name="value"
-                                           class="form-control" placeholder="1">
-                                    <span class="input-group-text">pessoas</span>
+                                           class="form-control">
+                                    <span class="input-group-text">pessoa(s)</span>
                                     <div class="invalid-feedback text-center">
-                                        A quantidade de pessoas é obrigatória e não poder ser menor que 1!
+                                        A quantidade de pessoas é obrigatória e não poder ser menor que 1,
+                                        nem maior que a capacidade da mesa!
                                     </div>
                                 </div>
                             </div>

@@ -42,7 +42,6 @@
 </footer>
 <script src="{{ mix('js/jquery.min.js') }}"></script>
 <script src="{{ mix('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ mix('js/axios.min.js') }}"></script>
 <script src="{{ mix('js/app.min.js') }}"></script>
 </body>
 </html>
